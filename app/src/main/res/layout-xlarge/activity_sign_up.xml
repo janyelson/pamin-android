@@ -1,0 +1,154 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signup_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_indigo_500"
+    tools:context="br.lavid.pamin.com.pamin.activities.LoginActivity">
+
+    <ScrollView
+        android:id="@+id/signup_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pamin_logo" />
+
+
+            <LinearLayout
+                android:id="@+id/register_normalLoginBG"
+                android:layout_width="500dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/imageView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:background="#28ffffff"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/signup_completeNameField"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white_semi_transparent"
+                    android:elevation="2dp"
+                    android:ems="10"
+                    android:hint="Seu nome"
+                    android:padding="11dp"
+                    android:textColor="@color/md_grey_800"
+                    android:textColorHint="@color/md_grey_600"
+                    app:backgroundTint="@color/md_white_1000" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/signup_emailField"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white_semi_transparent"
+                    android:elevation="2dp"
+                    android:ems="10"
+                    android:hint="Seu e-mail"
+                    android:inputType="textEmailAddress"
+                    android:padding="11dp"
+                    android:textColor="@color/md_grey_800"
+                    android:textColorHint="@color/md_grey_600"
+                    app:backgroundTint="@color/md_white_1000" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/signup_passwordField"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white_semi_transparent"
+                    android:elevation="2dp"
+                    android:ems="10"
+                    android:hint="Digite uma senha"
+                    android:inputType="textPassword"
+                    android:padding="11dp"
+                    android:textColor="@color/md_grey_800"
+                    android:textColorHint="@color/md_grey_600"
+                    app:backgroundTint="@color/md_white_1000" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/signup_passwordConfField"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white_semi_transparent"
+                    android:elevation="2dp"
+                    android:ems="10"
+                    android:hint="Digite a senha novamente"
+                    android:inputType="textPassword"
+                    android:padding="11dp"
+                    android:textColor="@color/md_grey_800"
+                    android:textColorHint="@color/md_grey_600"
+                    app:backgroundTint="@color/md_white_1000" />
+
+                <LinearLayout
+                    android:id="@+id/signup_enterRegisterBG"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/signup_registerBtn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/md_cyan_700"
+                        android:elevation="2dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:onClick="signUp"
+                        android:text="Registrar"
+                        android:textColor="@android:color/white" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/signup_cancelBtn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="@color/md_indigo_700"
+                        android:elevation="2dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:onClick="callRegisterActivity"
+                        android:text="Cancelar"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,147 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="br.lavid.pamin.com.pamin.activities.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_white_1000"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_indigo_500"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="br.lavid.pamin.com.pamin.activities.MainActivity">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <com.astuetz.PagerSlidingTabStrip
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/md_indigo_500"
+                    android:elevation="0dp"
+                    android:textColorPrimary="#fff"
+                    app:pstsIndicatorColor="@color/md_white_1000"
+                    app:pstsShouldExpand="true" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:elevation="0dp"
+                    tools:context=".MainActivity" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/main_dim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="48dp" />
+
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/main_floatingBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:fab_addButtonColorNormal="@color/md_indigo_500"
+                app:fab_addButtonColorPressed="@color/md_indigo_800"
+                app:fab_expandDirection="up"
+                app:fab_labelStyle="@style/menu_labels_style"
+                app:fab_plusIconColor="@color/md_white_1000">
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_celebBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/celeb_color"
+                    app:fab_icon="@drawable/celeblarge"
+                    app:fab_size="mini"
+                    app:fab_title="@string/main_floatingBtn_celeb" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_placesBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/places_color"
+                    app:fab_icon="@drawable/placeslarge"
+                    app:fab_size="mini"
+                    app:fab_title="@string/main_floatingBtn_places" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_knowBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/know_color"
+                    app:fab_icon="@drawable/knowlarge"
+                    app:fab_size="mini"
+                    app:fab_title="@string/main_floatingBtn_know" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_peoBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/people_color"
+                    app:fab_icon="@drawable/peolarge"
+                    app:fab_size="mini"
+                    app:fab_title="@string/main_floatingBtn_people" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_objBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/object_color"
+                    app:fab_icon="@drawable/objlarge"
+                    app:fab_size="mini"
+                    app:fab_title="@string/main_floatingBtn_obj" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/expform_color"
+                    app:fab_icon="@drawable/expformlarge"
+                    app:fab_size="mini"
+                    app:fab_title="@string/main_floatingBtn_exp" />
+
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/navigation_listview"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="#ffffff"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="vertical" />
+
+</android.support.v4.widget.DrawerLayout>

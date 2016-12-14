@@ -1,0 +1,223 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0E0E0"
+    tools:context="br.lavid.pamin.com.pamin.activities.ReportProblemActivity">
+
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="10dp"
+                android:text="Tipo do erro/sugestão"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#de000000"
+                android:textSize="22sp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView9">
+
+                <RadioButton
+                    android:id="@+id/radioBtn_fakeEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView9"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Evento falso"
+                    android:textColor="#de000000"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioBtn_wrongDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/sugest_radioButton"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Detalhe equivocado"
+                    android:textColor="#de000000"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioBtn_badGrammar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/radioButton2"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Erro de gramática ou ortografia severo"
+                    android:textColor="#de000000"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/sugest_radioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/radioButton2"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Sugestão"
+                    android:textColor="#de000000"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioBtn_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/radioButton4"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Outro"
+                    android:textColor="#de000000"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/radioGroupType"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="10dp"
+                android:text="Descrição detalhada do erro/sugestão"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#de000000"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView10"
+                android:layout_marginLeft="6dp"
+                android:text="Seja específico. Diga-nos quais os passos que precisamos tomar para ver o erro ou a sugestão, o que você esperava que acontecesse e o que realmente aconteceu"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/reportProblem_descField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView11"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="Descrição"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:padding="4dp"
+                android:textColorHint="#39000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/reportProblem_descField"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="10dp"
+                android:text="Qual o seu dispositivo ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#de000000"
+                android:textSize="25sp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupDevice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView12">
+
+                <RadioButton
+                    android:id="@+id/radioBtn_isCel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView12"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Celular Android"
+                    android:textColor="#de000000"
+                    android:textSize="19sp" />
+
+                <RadioButton
+                    android:id="@+id/radioBtn_isTablet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/radioButton5"
+                    android:layout_marginTop="5dp"
+                    android:checked="false"
+                    android:text="Tablet Android"
+                    android:textColor="#de000000"
+                    android:textSize="19sp" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/sendReportBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="65dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/radioGroupDevice"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="#7CB342"
+                android:gravity="center_vertical|center_horizontal"
+                android:onClick="sendReport"
+                android:singleLine="false"
+                android:text="Enviar"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

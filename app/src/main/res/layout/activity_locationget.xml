@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_blue_grey_100">
+
+    <fragment
+        android:id="@+id/activity_locationget_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="65dp"
+        tools:context="br.lavid.pamin.com.pamin.activities.LocationGetActivity" />
+
+    <AutoCompleteTextView
+        android:id="@+id/activity_locationget_field"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/md_white_1000"
+        android:drawableRight="@android:drawable/ic_search_category_default"
+        android:maxLines="1"
+        android:minLines="1"
+        android:padding="4dp"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/location_cancelBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/activity_locationget_field"
+            android:layout_alignRight="@+id/activity_locationget_field"
+            android:layout_alignTop="@+id/location_getBtn"
+            android:layout_weight="1"
+            android:onClick="cancelBtn"
+            android:text="Cancelar" />
+
+        <Button
+            android:id="@+id/location_getBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:onClick="getBtn"
+            android:text="Selecionar" />
+    </LinearLayout>
+</RelativeLayout>
+

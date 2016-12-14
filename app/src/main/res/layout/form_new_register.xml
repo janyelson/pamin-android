@@ -1,0 +1,357 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0E0E0"
+    tools:context="br.lavid.pamin.com.pamin.activities.NewRegisterActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/full_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:backgroundTintMode="add"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/formRegister_titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:text="@string/formRegister_titleText"
+                android:textColor="#de000000"
+                android:textSize="25sp"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/formRegister_titleField"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:ems="10"
+                android:hint="Digite o título"
+                android:inputType="textPersonName"
+                android:padding="4dp"
+                android:textColorHint="#39000000"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/formRegister_WhereText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/formRegister_WhereText"
+                android:textColor="#de000000"
+                android:textSize="25sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/formRegisterr_textAdress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#de000000"
+                android:textSize="25sp"
+                android:textStyle="normal"
+                android:visibility="gone" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/formRegister_map"
+                android:layout_width="fill_parent"
+                android:layout_height="320dp"
+                android:layout_weight="1"
+                app:liteMode="true"
+                app:mapType="normal" />
+
+            <Button
+                android:id="@+id/formRegister_WhereButton"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:elevation="2dp"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:text="Adicionar local"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/formRegister_WhenText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:text="Quando"
+                android:textColor="#de000000"
+                android:textSize="25sp" />
+
+            <LinearLayout
+                android:id="@+id/startDateTimeBtn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/startDateBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:onClick="showDatePickerDialog"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageButton
+                    android:id="@+id/clearStartDate_btn"
+                    android:onClick="clearDateOrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close_circle" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/startTimeBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toEndOf="@+id/startDateBtn"
+                    android:layout_toRightOf="@+id/startDateBtn"
+                    android:onClick="showTimePickerDialog"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageButton
+                    android:id="@+id/clearStartTime_btn"
+                    android:onClick="clearDateOrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close_circle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/endDateTimeBtn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/endDateBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="showDatePickerDialog"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageButton
+                    android:id="@+id/clearEndDate_btn"
+                    android:onClick="clearDateOrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close_circle" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/endTimeBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toEndOf="@+id/endDateBtn"
+                    android:layout_toRightOf="@+id/endDateBtn"
+                    android:layout_weight="1"
+                    android:onClick="showTimePickerDialog"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageButton
+                    android:id="@+id/clearEndTime_btn"
+                    android:onClick="clearDateOrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close_circle" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="14dp"
+                android:text="Descrição"
+                android:textColor="#de000000"
+                android:textSize="25sp" />
+
+            <EditText
+
+                android:id="@+id/formRegister_DescField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.62"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="Descrição"
+                android:inputType="textMultiLine"
+                android:minHeight="80dp"
+                android:padding="4dp"
+                android:textColorHint="#39000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:text="Preço"
+                android:textColor="#de000000"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/formRegister_Pricefield"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:ems="10"
+                android:hint="R$"
+                android:inputType="text"
+                android:padding="4dp"
+                android:textColorHint="#39000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:text="Promotor"
+                android:textColor="#de000000"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/formRegister_PromotField"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:ems="10"
+                android:hint="Nome do Promotor"
+                android:inputType="textPersonName"
+                android:padding="4dp"
+                android:textColorHint="#39000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/formRegister_ContactField"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:ems="10"
+                android:hint="Contato do Promotor"
+                android:inputType="textPersonName"
+                android:padding="4dp"
+                android:textColorHint="#39000000"
+                android:textSize="16sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/formRegister_picture"
+                    android:layout_width="fill_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#BDBDBD"
+                    android:onClick="showFullscreen"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_photo_white_24dp_gg"
+                    android:tag="image" />
+
+                <ImageButton
+                    android:id="@+id/formRegister_camBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:elevation="2dp"
+                    android:onClick="captureImage"
+                    android:src="@drawable/ic_camera_enhance_white_24dp" />
+
+                <ImageButton
+                    android:id="@+id/formRegister_galeryBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/formRegister_camBtn"
+                    android:elevation="2dp"
+                    android:onClick="selectFromGalery"
+                    android:src="@drawable/ic_photo_library_white_24dp" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="fill_parent"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="#7CB342"
+                android:gravity="center_vertical|center_horizontal"
+                android:onClick="sendRegister"
+                android:singleLine="false"
+                android:text="R e g i s t r a r"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

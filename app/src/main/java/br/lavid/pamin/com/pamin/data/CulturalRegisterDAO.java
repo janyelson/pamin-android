@@ -1,0 +1,222 @@
+package br.lavid.pamin.com.pamin.data;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import java.util.Date;
+import java.util.LinkedList;
+
+import br.lavid.pamin.com.pamin.data.PaminDataContract.CulturalRegisterEntry;
+import br.lavid.pamin.com.pamin.models.CloudnaryPicture;
+import br.lavid.pamin.com.pamin.models.CulturalRegister;
+
+/**
+ * Created by araujojordan on 22/06/15.
+ */
+public class CulturalRegisterDAO {
+
+    public static String strSeparator = "__,__";
+    private PaminDbHelper paminDbHelper;
+
+    public CulturalRegisterDAO(Context ctx) {
+        paminDbHelper = new PaminDbHelper(ctx);
+    }
+
+    public static String convertArrayToString(String[] array) {
+        String str = "";
+        for (int i = 0; i < array.length; i++) {
+            str = str + array[i];
+            // Do not append comma at the end of last element
+            if (i < array.length - 1) {
+                str = str + strSeparator;
+            }
+        }
+        return str;
+    }
+
+    public static String[] convertStringToArray(String str) {
+        try {
+            return str.split(strSeparator);
+        } catch (Exception error) {
+            return new String[0];
+        }
+    }
+
+    public CulturalRegister load(int id) {
+
+        SQLiteDatabase db = paminDbHelper.getReadableDatabase();
+
+        Cursor c = db.query(
+                CulturalRegisterEntry.TABLE_NAME,
+                null,
+                CulturalRegisterEntry.COLUMN_NAME_ID + " = ? ",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null
+        );
+
+        if (c.moveToFirst()) {
+
+            CulturalRegister cultReg = new CulturalRegister(
+                    c.getInt(0),
+                    c.getString(1),
+                    c.getString(2),
+                    c.getString(3),
+                    c.getString(4),
+                    null,
+                    new Date(c.getLong(5)),
+                    new Date(c.getLong(6)),
+                    c.getDouble(7),
+                    c.getDouble(8),
+                    c.getDouble(9),
+                    c.getString(10),
+                    c.getString(11)
+            );
+
+            db.close();
+            return cultReg;
+        }
+
+        db.close();
+        return null;
+    }
+
+    public void update(CulturalRegister cult_reg) {
+        SQLiteDatabase db = paminDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(CulturalRegisterEntry.COLUMN_NAME_TITLE, cult_reg.getTitle());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_DESCRIPTION, cult_reg.getDescription());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_WHERE, cult_reg.getWhere());
+
+        if (cult_reg.getStartDate() != null)
+            values.put(CulturalRegisterEntry.COLUMN_NAME_START_DATE, cult_reg.getStartDate().getTime());
+        if (cult_reg.getEndDate() != null)
+            values.put(CulturalRegisterEntry.COLUMN_NAME_END_DATE, cult_reg.getEndDate().getTime());
+
+        values.put(CulturalRegisterEntry.COLUMN_NAME_CATEGORY, cult_reg.getCategory());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PROMOTER, cult_reg.getPromoter());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PROMOTER_CONTACT, cult_reg.getPromoterContact());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_LATITUDE, cult_reg.getLatitude());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_LONGITUDE, cult_reg.getLongitude());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PRICE, cult_reg.getPrice());
+
+        String[] picturesAndVids = new String[cult_reg.getPictures().size()];
+        int i = 0;
+        for (CloudnaryPicture cp : cult_reg.getPictures()) {
+            if (cp.getCompleteUrl() == null || cp.getCompleteUrl().isEmpty())
+                continue;
+            else
+                Log.v("CrDAO", "Saving picORvid" + i + ": " + cp.getCompleteUrl());
+            picturesAndVids[i] = cp.getCompleteUrl();
+            i++;
+        }
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PICs_VIDs, convertArrayToString(picturesAndVids));
+
+        long result = db.update(CulturalRegisterEntry.TABLE_NAME, values, CulturalRegisterEntry.COLUMN_NAME_ID + "='" + cult_reg.getIdCulturalRegister() + "'", null);
+        db.close();
+    }
+
+    public boolean delete(CulturalRegister cult_reg) {
+        Log.v("Sync", "Delete old " + cult_reg.getTitle());
+        SQLiteDatabase db = paminDbHelper.getWritableDatabase();
+        boolean result = db.delete(CulturalRegisterEntry.TABLE_NAME,
+                CulturalRegisterEntry.COLUMN_NAME_ID + "=" + cult_reg.getIdCulturalRegister(),
+                null) > 0;
+        Log.v("Sync", "Delete successful: " + result);
+        db.close();
+        return result;
+    }
+
+    public long save(CulturalRegister cult_reg) {
+        SQLiteDatabase db = paminDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(CulturalRegisterEntry.COLUMN_NAME_ID, cult_reg.getIdCulturalRegister());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_TITLE, cult_reg.getTitle());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_DESCRIPTION, cult_reg.getDescription());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_WHERE, cult_reg.getWhere());
+
+        if (cult_reg.getStartDate() != null)
+            values.put(CulturalRegisterEntry.COLUMN_NAME_START_DATE, cult_reg.getStartDate().getTime());
+        if (cult_reg.getEndDate() != null)
+            values.put(CulturalRegisterEntry.COLUMN_NAME_END_DATE, cult_reg.getEndDate().getTime());
+
+        values.put(CulturalRegisterEntry.COLUMN_NAME_CATEGORY, cult_reg.getCategory());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PROMOTER, cult_reg.getPromoter());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PROMOTER_CONTACT, cult_reg.getPromoterContact());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_LATITUDE, cult_reg.getLatitude());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_LONGITUDE, cult_reg.getLongitude());
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PRICE, cult_reg.getPrice());
+
+        String[] picturesAndVids = new String[cult_reg.getPictures().size()];
+        int i = 0;
+        for (CloudnaryPicture cp : cult_reg.getPictures()) {
+            if (cp.getCompleteUrl() == null || cp.getCompleteUrl().isEmpty())
+                continue;
+            else
+                Log.v("CrDAO", "Saving picORvid" + i + ": " + cp.getCompleteUrl());
+            picturesAndVids[i] = cp.getCompleteUrl();
+            i++;
+        }
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PICs_VIDs, convertArrayToString(picturesAndVids));
+
+        long result = db.insert(CulturalRegisterEntry.TABLE_NAME, null, values);
+        db.close();
+        return result;
+    }
+
+    public LinkedList<CulturalRegister> getAll() {
+        SQLiteDatabase db = paminDbHelper.getReadableDatabase();
+
+        Cursor c = db.query(CulturalRegisterEntry.TABLE_NAME,
+                null, null, null, null, null, null);
+
+        Log.v("Reading", "Elements in DB: " + c.getCount());
+
+        LinkedList<CulturalRegister> culturalRegisters = new LinkedList<CulturalRegister>();
+        if (c.moveToFirst()) {
+            do {
+                CulturalRegister cultReg = new CulturalRegister(
+                        c.getInt(0),
+                        c.getString(1),
+                        c.getString(2),
+                        c.getString(3),
+                        c.getString(4),
+                        null,
+                        new Date(c.getLong(5)),
+                        new Date(c.getLong(6)),
+                        c.getDouble(7),
+                        c.getDouble(8),
+                        c.getDouble(9),
+                        c.getString(10),
+                        c.getString(11)
+                );
+
+                String[] picsVids = convertStringToArray(c.getString(12));
+                for (String picORvid : picsVids) {
+                    if (picORvid == null || picORvid.isEmpty())
+                        continue;
+                    Log.v("CrDAO", "Loading picORvid: " + picORvid);
+                    cultReg.addPicture(new CloudnaryPicture(picORvid));
+                }
+                culturalRegisters.add(cultReg);
+
+            } while (c.moveToNext());
+        }
+
+        db.close();
+        return culturalRegisters;
+    }
+
+    public void deleteAll() {
+        SQLiteDatabase db = paminDbHelper.getWritableDatabase();
+        db.execSQL(PaminDbHelper.SQL_DELETE_ENTRIES);
+        paminDbHelper.onCreate(db);
+        db.close();
+    }
+}

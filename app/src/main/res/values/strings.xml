@@ -1,0 +1,215 @@
+<resources>
+    <string name="app_name">Pamin</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="mainActivity_listTab">Lista</string>
+    <string name="mainActivity_mapTab">Mapa</string>
+
+    <string name="kilometer">quilômetro(s) de você</string>
+    <string name="meter">metro(s) de você</string>
+    <string name="distanceToClose">Próximo a você</string>
+
+    <string-array name="mainmenu_category_array">
+        <item>Tudo</item>
+        <!--<item>Linha do Tempo</item>-->
+        <item>Pessoas</item>
+        <item>Lugares</item>
+        <item>Celebrações</item>
+        <item>Saberes</item>
+        <item>Formas de Expressão</item>
+        <item>Objetos</item>
+    </string-array>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_cultural_register">CulturalRegisterActivity</string>
+    <string name="mainlist_open">Abrir</string>
+    <string name="registercultural_activity_starttitle">Início:</string>
+    <string name="culturalregister_activity_endtitle">Fim:</string>
+    <string name="culturalRegister_priceTitle">Preço:</string>
+    <string name="culturalRegister_promotorTitle">Promotor:</string>
+    <string name="culturalRegister_promotorContactTitle">Contato:</string>
+    <string name="culturalRegister_priceFree">Entrada Gratuita</string>
+    <string name="brazilMoney">"R$ "</string>
+    <string name="main_spinnerTitle">Tudo</string>
+    <string name="main_floatingBtn_places">Adicionar Lugar</string>
+    <string name="main_floatingBtn_celeb">Adicionar Celebração</string>
+    <string name="main_floatingBtn_know">Adicionar Saberes</string>
+    <string name="main_floatingBtn_people">Adicionar Pessoa</string>
+    <string name="main_floatingBtn_obj">Adicionar Objeto</string>
+    <string name="main_floatingBtn_exp">Adicionar Expressão</string>
+    <string name="title_activity_new_register">Novo Registro</string>
+    <string name="formRegister_titleText">Título</string>
+    <string name="formRegister_WhereText">Onde</string>
+    <string name="title_activity_sign_up">Cadastro</string>
+    <string name="title_activity_medelete">Map</string>
+    <string name="title_activity_main_drawer">MainDrawerActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_location_get">Selecione uma posição</string>
+    <string name="title_activity_main">Pamin</string>
+    <string name="openDrawer">Drawer Opne</string>
+    <string name="closeDrawer">Drawer Close</string>
+    <string name="main_dialog_loginAsker">Para adicionar um novo item, é necessário realizar login. \nDeseja realizar login agora?</string>
+    <string name="Yes">Sim</string>
+    <string name="No">Não</string>
+
+    <string name="title_activity_user_profile">Usuário</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="about">Sobre</string>
+    <string name="title_activity_about_pamin">AboutPaminActivity</string>
+    <string name="about_pamin">O Patrimônio, Memória e Interatividade (Pamin) parte da constatação de que o patrimônio cultural e artístico local é pouco conhecido da sociedade, mesmo quando ele é objeto de políticas públicas: a visão elitista corrente da \"arte\" e \"cultura\" desautoriza o \"popular\" no reconhecimento e definição de suas próprias estratégias, dificultando a expressão de suas experiências e visões de mundo socialmente inscritas.\n\nConectado a experiências locais - comunidades em realidades de criação e produção -, o Pamin colabora para a \"emergência\" de grupos, pessoas, processos e movimentos artísticos e culturais em atividade no Brasil, democratizando o acesso à suas produções. A perspectiva do Pamin é de conhecer as experiências artístico-culturais locais através de um dispositivo tecnológico - o site Pamin - onde a própria \"periferia\" informa o \"centro\", localizado numa rede de comunicação digital interativa.\n\n O Pamin integra a antropologia, a informática e áreas afins no campo da cultura digital, congregando professores, alunos, servidores e pesquisadores através da extensão universitária associada à pesquisa e ao ensino. Propõe uma abordagem social e tecnológica para as questões relativas à difusão e conservação de informações do patrimônio cultural e artístico através de uma ferramenta colaborativa que contempla os protagonistas destas atividades assim como gestores públicos, instituições governamentais, produtores culturais e pesquisadores com acervos e registros diversificados e dispersos.</string>
+    <string name="title_activity_about_dev">Sobre os Desenvolvedores</string>
+    
+    <string name="user_terms">Termos de uso
+\nTERMOS GERAIS DE USO DO PAMIN
+\n
+\na) Termos de Uso - Obrigatoriedade e Licenciamento
+\n
+\n1) Os presentes termos de uso (doravante denominados "termos de uso") governam o acesso e utilização do website http://www.pamin.lavid.ufpb.br/ e aplicativo Pamin bem como qualquer outro website e aplicativo a ele vinculado de qualquer forma (todos são doravante designados como Pamin, assim como todo o empreendimento Pamin também é designado pelo termo Pamin). Os presentes termos de uso estabelecem condições essenciais e necessárias para a utilização do Pamin. A utilização do site e aplicativo implica imediata aceitação dos presentes termos de uso. Os presentes termos de uso, além de regularem contratualmente a relação entre as partes, devem ser entendidos também como licença de uso do Pamin. O Pamin é regido pelo direito autoral. Para a utilização de qualquer forma do site e aplicativo, é obrigatório aceitar os presentes termos de uso. Sua não aceitação ou infração constitui não apenas violação dos presentes termos de uso, como também violação do direito autoral do Pamin.
+\n
+\n2) A versão válida e eficaz dos presentes termos de uso é aquela publicada atualmente pelo site e aplicativo. Esta versão governa todas as relações passadas e presentes entre os usuários do site e aplicativo, respeitados direitos adquiridos, atos jurídicos perfeitos e coisas julgadas. O usuário deverá sempre ler atentamente os presentes termos de uso, e não poderá escusar-se deles alegando ignorância sobre seus termos, inclusive quanto a eventuais modificações.
+\n
+\n3) Vários serviços e conteúdos oferecidos pelo site e aplicativo são objeto de termos de uso específicos. Esses termos de uso podem substituir, complementar ou modificar os presentes termos de uso. No caso de conflito entre os presentes termos de uso e termos de uso específicos aplicáveis a outras partes do Pamin, o especial deverá prevalecer sobre o geral. As condições especiais também deverão sempre ser lidas pelos usuários, nos termos do item (2) acima. Outros avisos e comunicados poderão estar presente ao longo do site e aplicativo, regulando sua forma de utilização. Esses avisos deverão ser interpretados em harmonia com os presentes termos de uso, que sobre eles prevalecerão.
+\n
+\nb) Objeto dos Termos de Uso
+\n
+\n4) Uma vez que os presentes termos de uso são aceitos, o usuário tem a sua disposição diversos serviços, ferramentas e conteúdos disponibilizados pelo Pamin (doravante designados serviços).
+\n
+\n5) Os serviços oferecidos pelo Pamin são de caráter gratuito para seus usuários. Entretanto, alguns serviços oferecidos pelo Pamin ou por terceiros através do Pamin podem ser cobrados ou vir a ser cobrados, quando então poderão ou não ser objeto de termos de uso específicos.
+\n
+\nc) Registro dos Usuários e Veracidade das Informações
+\n
+\n6) O acesso ao conteúdo do Pamin e o acesso a alguns serviços do Pamin podem não exigir o prévio registro ou inscrição dos usuários no site ou aplicativo. Entretanto, esse não registro não implica que esses usuários não tenham aceitado os presentes termos de uso. Outros serviços do Pamin, para serem acessados, exigem que o usuário seja cadastrado, fornecendo alguns dados. Esses dados são regulados pela política de privacidade do Pamin.
+\n
+\n7) Toda informação oferecida pelo usuário para acessar o Pamin e seus serviços deverá ser verdadeira. O usuário garante a autenticidade de todos os dados que informar através preenchimento dos formulários disponibilizados. É exclusiva responsabilidade do usuário manter qualquer informação fornecida ao Pamin permanentemente atualizada de forma a sempre refletir os dados reais do usuário. O fornecimento de declarações falsas ou inexatas constitui violação dos presentes termos de uso, bem como revogação da licença de utilização do Pamin. Em quaisquer casos, o usuário será sempre o único e exclusivo responsável pela sua conduta e por danos por ela causados no âmbito do Pamin, quanto a ele e quanto a terceiros.
+\n
+\n8) Menores de idade devem obter a prévia autorização dos pais, tutores ou representantes legais como forma de acessarem o Pamin, os quais serão considerados responsáveis por todos os atos praticados pelos menores. Os pais, tutores ou representantes legais serão plenamente responsáveis também no caso de acesso ao Pamin por parte de menores, sem a devida obtenção de autorização prévia. Cabe a eles a integral responsabilidade pela fiscalização das atividades e conduta dos respectivos menores sob sua tutela.
+\n
+\nd) O Pamin deve ser Usado de Boa-Fé e Corretamente
+\n
+\n9) O usuário se compromete a utilizar o Pamin de boa-fé e em conformidade como todos os preceitos legais, regulamentares e contratuais porventura aplicáveis, bem como com a ordem pública, a moral e os bons costumes e as normas de conduta e etiqueta geralmente aceitas.
+\n
+\n10) TODOS OS SERVIÇOS DO Pamin CONSISTEM MERAMENTE NA DISPONIBILIZAÇÃO DE UM CANAL ABERTO DE COMUNICAÇÃO OFERECIDO AOS USUÁRIOS. O Pamin NÃO VERIFICA AS INFORMAÇÕES CIRCULADAS ATRAVÉS DELE. CADA USUÁRIO É INTEGRALMENTE O ÚNICO E EXCLUSIVO RESPONSÁVEL PELO CONTEÚDO ADICIONADO AO PAMIN, BEM COMO POR SUA CONDUTA NO PAMIN. Como exemplo de condutas vedadas, o usuário responsabiliza-se integralmente por não transmitir, difundir, adicionar ou disponibilizar a terceiros informações, dados, conteúdos, mensagens, fotos, filmes, sons, software e qualquer outro material que de qualquer forma violem ou abusem de direito de terceiros, bem como que infrinjam direitos da personalidade e garantias constitucionais, ou leis e regulamentos aplicáveis, induzam ou promovam ilegalidades, constituam condutas difamatórias, calúnias ou difamações, expressem discriminação de raça ou de qualquer outra natureza, violem a propriedade intelectual de terceiros, incorporem vírus ou outras formas de código que possam causar dano ou impedir o normal funcionamento do Pamin ou dos sistemas de terceiros, ou possam causar dano de qualquer forma, ou ainda, que violem os termos de uso e outras orientações estabelecidas no Pamin.
+\n
+\n11) O usuário deve utilizar o Pamin, seus conteúdos e sistemas de acordo com os preceitos estabelecidos acima. Além disso o usuário deverá respeitar todos os direitos autorais incidentes e outros direitos, inclusive de propriedade intelectual, aplicáveis sobre os conteúdos. Cada conteúdo em si do Pamin deverá ser governado isoladamente pelos respectivos direitos aplicáveis. Nesse sentido, poderá haver obras no Pamin que, por exemplo, são licenciadas por regimes específicos de licenciamento, como o caso das licenças Creative Commons (www.creativecommons.org.br). Cada obra ou conteúdo presente no Pamin deve, assim, ser governado por seus próprios termos aplicáveis. O Pamin, cujos serviços consistem essencialmente na disponibilização de um canal de comunicações, não fiscaliza qualquer um desses direitos aplicáveis, cabendo única e exclusivamente ao usuário todas as diligências para o devido cumprimento dos respectivos direitos e obrigações aplicáveis.
+\n
+\n12) O usuário não deverá de qualquer maneira reproduzir, utilizar, copiar, distribuir, permitir o acesso público, disponibilizar ao público, transformar, modificar de quaisquer formas conteúdos do Pamin, a menos que possua prévia autorização do titular dos correspondentes direitos, ou que essa utilização lhe seja legítima, legalmente ou contratualmente facultada e/ou de qualquer outra forma permitida. O usuário deverá respeitar na íntegra as permissões que receber para a utilização de qualquer conteúdo do Pamin, não podendo suprimir ou alterar qualquer notificação de direito autoral ou copyright, nem falsamente aplicar qualquer notificação ou aviso de direitos autorais ou copyright, ou induzir terceiros a erro através de falso licenciamento de obras protegidas, ou qualquer outra forma de violação de direitos.
+\n
+\n13) Quando um determinado conteúdo for objeto de licenciamento específico, como no caso de licenças Creative Commons, os usuários deverão respeitar na íntegra as obrigações e faculdades concedidas por essa licença. O usuário não poderá, assim, aplicar posteriormente sobre as obras obtidas pelo Pamin ou submeter ao site ou aplicativo quaisquer obras para o Pamin com medidas de proteção tecnológica, tais quais sistemas DRMs (Digital Rights Management), que contrariem as faculdades e direitos outorgados pelos legítimos titulares das respectivas licenças, ou que de qualquer forma prejudiquem ou impeçam direitos legítimos de uso ou o exercício de limitações e exceções ao direito autoral, nos termos da lei.
+\n
+\n14) O usuário não poderá de nenhuma forma empregar mecanismos técnicos que de qualquer forma subvertam a regular utilização do Pamin, sem a prévia consulta aos gestores do Pamin. Esses mecanismos incluem a utilização de robôs (robots, ou bots), spiders, scripts ou qualquer outra forma de acesso automatizado ao site e aplicativo que de alguma forma sirva para desvirtuar suas finalidades e propósitos. O emprego desses recursos sem autorização prévia implica violação dos presentes termos de uso e sujeita a parte infringente ao pagamento de danos emergentes e lucros cessantes, bem como de multa punitiva que se aplicará mesmo que não tenha sido produzido qualquer dano, a ser arbitrada pelo juízo que for responsável pelo julgamento da causa.
+\n
+\n15) O usuário não poderá praticar qualquer ato que possa ser qualificado como spam. Além disso, nenhum dado presente no site ou aplicativo poderá ser utilizado com finalidade publicitária, direta ou indiretamente, ou em qualquer outra finalidade comercial, sem a prévia solicitação e consentimento. O usuário deverá abster-se de utilizar qualquer espaço concedido pelo Pamin para a postagem de mensagens que guardem semelhança com o spam, inclusive através da postagem de links e outras informações em espaços abertos para comentários e fóruns de discussão, dentre outros. O usuário também não poderá coletar quaisquer dados de terceiros através do site ou aplicativo, para finalidades comerciais, de publicidade ou outras finalidades que não aquelas da interação regular e normal propostas pelo Pamin. A violação das presentes determinações sujeitam a parte infringente a ser responsabilizada perante o Pamin por lucros cessantes e danos emergentes, além de ser responsabilizada também pelo pagamento de multa punitiva, independente da constatação de danos, a ser estipulada pelo juízo que da causa tiver conhecimento.
+\n
+\n16) O usuário que submeter qualquer conteúdo ou participar de quaisquer atividades com relação ao Pamin garante e certifica que não está infringindo quaisquer direitos, legais, contratuais ou de terceiros, bem como quaisquer outros. Para submeter um conteúdo ao site ou aplicativo é obrigatório que o usuário seja o legítimo titular dos direitos sobre aquele conteúdo, sendo exclusivamente e totalmente responsável pelo envio, postagem e disponibilização do conteúdo, a qualquer título e de qualquer forma. Quaisquer reclamações de terceiros serão de responsabilidade do usuário, que deverá assumir todas e quaisquer responsabilidades legais e processuais com relação à reclamação. O usuário fica ciente que o Pamin denunciará todas e quaisquer lides, litígios e disputas no qual for envolvido por conta de conteúdos e condutas submetidos ou perpetradas por usuários ou terceiros, na medida permitida pela lei, de modo a não mais ser parte da lide, litígio ou disputa. O Pamin também faculta-se o direito de chamar ao processo qualquer usuário, em razão de quaisquer ações originárias de sua conduta e conteúdo submetido. Faculta-se também o direito de responsabilizar diretamente o usuário perpetrador da conduta abusiva, valendo-se para isso de todas os recursos legalmente possíveis, incluindo direito de regresso, dentre outros. Para tanto, o Pamin irá valer-se dos dados de registro bem como quaisquer outros dados técnicos que permitam identificar o usuário, ficando desde já ciente disso o usuário ou terceiros afetados, que não poderão alegar qualquer violação de privacidade nesses casos. O Pamin reserva-se também o direito de cancelar o registro a qualquer tempo de qualquer usuário, por sua única e exclusiva discricionariedade, sem qualquer aviso prévio.
+\n
+\ne) Alerta de Abusos
+\n
+\n17) O Pamin é um mero canal de comunicação, não fiscalizando os conteúdos por ele trafegados ou nele armazenados. Se qualquer usuário constatar qualquer violação de direitos presente no site ou aplicativo, ou ainda, qualquer violação aos presentes termos de uso, o mesmo poderá alertar o Pamin, que tomará as providências necessárias para a remoção do conteúdo, uma vez que seja constatada a presença do requisito aparência de boa-fé e de fumus boni iuris. Para tanto, o Pamin disponibiliza um botão de "Reportar" em todos os conteúdos publicados no site ou aplicativo pelos seus usuários. De modo a garantir a boa-fé da utilização do alerta do Pamin e sua efetividade, qualquer usuário efetuando uma denúncia de abusos deverá necessariamente valer-se deste canal para a apresentação das denúncias, informando por meio dele a motivação para a realização da denúncia. Nos casos em que se fizer necessário, a equipe do Pamin poderá posteriormente entrar em contato com o usuário autor da denúncia com vistas à solicitação de informações adicionais e dados pessoais que constituírem requisitos para a compreensão da denúncia realizada ou a sua configuração legal. Alternativamente, o encaminhamento de denúncias poderá também ser realizado por meio do canal de contato com o Pamin, disponível no email jordanlira@lavid.ufpb.br. Neste caso, de modo a a garantir a boa-fé na utilização deste canal e sua efetividade, qualquer usuário efetuando uma denúncia de abusos deverá necessariamente identificar-se de modo apropriado, de acordo com os preceitos constitucionais que vedam o anonimato. A identificação é requisito constitucional e também requisito dos presentes termos de uso para que o alerta recebido seja considerado como válido, nos termos abaixo. Assim, para que a denúncia realizada por meio do canal de contato seja considerada válida, o usuário deverá especificar os seguintes dados, sempre que aplicáveis:
+\n(a) dados pessoais: nome, endereço, número de telefone e endereço de correio eletrônico do reclamante;
+\n(b) especificação da suposta atividade ilícita ocorrida no Pamin e, em particular, quando se tratar de suposta violação de direitos autorais, indicação precisa e completa dos conteúdos protegidos e supostamente infringidos;
+\n(c) fatos ou circunstâncias que revelam o caráter ilícito de tal atividade;
+\n(d) declaração expressa e clara de que a utilização dos conteúdos foi realizada sem o consentimento do titular dos direitos de propriedade intelectual supostamente infringidos.
+\n
+\nf) Contribuições para o Pamin
+\n
+\n18) O Pamin é um projeto colaborativo e é construído através da contribuição dos usuários do website e aplicativo, que se valem dele enquanto canal de comunicação para a postagem de suas obras. O Pamin é também um website e aplicativo cujo conteúdo é licenciado através de uma licença Creative Commons (www.creativecommons.org.br), que permite e autoriza o compartilhamento de todo o seu conteúdo, respeitados os critérios definidos pela própria licença. A política geral de publicações do Pamin é de que, você, como autor ou titular de direitos daquilo que envia para o site e aplicativo, continua sendo o detentor dos direitos sobre as obras que enviar, apenas autorizando a sociedade e o Pamin, em caráter NÃO-EXCLUSIVO (isto é, isto não impede que você ceda e transfira os direitos sobre seus materiais para outros veículos e pessoas, ou mesmo que republique-os em outros veículos e mídias sempre que quiser) com relação ao exercício de alguns direitos. Diferente de outros websites, o Pamin não exige que você ceda e transfira todos os seus direitos para o próprio Pamin. No entanto, para garantir a liberdade de acesso ao seu conteúdo e dentro do espírito colaborativo do próprio projeto, todo o conteúdo do website e aplicativo é licenciado através de uma licença Creative Commons ((www.creativecommons.org.br). O Creative Commons permite que você preserve seus direitos de autor sobre suas obras, sejam elas de qualquer natureza (textos, filmes, fotos, músicas, animações, etc). Permite também que você autorize alguns usos do seu trabalho para toda a sociedade. A licença oficial do Pamin é a chamada Atribuição-Uso-Não-Comercial-Compartilhamento pela Mesma Licença que pode ser entendida facilmente acessando a seguinte página: (http://creativecommons.org/licenses/by-nc-sa/2.5/br/deed.pt Essa é a licença aplicável sobre sua contribuição. Além disso, ao contribuir para o Pamin, você autoriza pelo prazo de proteção dos direitos autorais o próprio Pamin a utilizar seus conteúdos no âmbito do próprio site ou aplicativo, permitindo o seu arranjo e rearranjo com outros conteúdos. O Pamin também terá o direito de recusar, remover ou alterar conteúdos a qualquer tempo. O usuário que disponibiliza qualquer conteúdo através do Pamin declara e garante que é titular de todos os direitos de propriedade intelectual sobre os textos e quaisquer outros materiais por ele submetidos para o site e aplicativo, mesmo que não seja ele o autor da obra, garantindo que todas suas contribuições não violam direitos de terceiros. O Pamin não faz qualquer verificação sobre essa titularidade e sobre eventual violação de direitos de terceiro. Qualquer violação de direitos de terceiros pode ser reportada através do botão Alerta, disponível em todos os conteúdos publicados no site e aplicativo por seus usuários, conforme as definições dos presentes termos de uso.
+\n
+\ng) Republicação de conteúdos do site e do aplicativo
+\n
+\n19) De acordo com o item (11) acima, cada obra ou conteúdo do Pamin é governado por um regime específico de direitos autorais, conforme aplicável. Além desse regime específico, o conteúdo e obras disponíveis no site e do aplicativo são governados também pela integralidade dos presentes termos de uso. Como política do Pamin, seu conteúdo é de modo geral licenciado por uma licença Creative Commons, cujos termos podem ser obtidos através do link na respectiva página do Pamin. Essa licença veda a utilização comercial de qualquer conteúdo ou obras disponíveis no Pamin. Com ela o autor ou titular de direitos sobre a obra mantém todos os seus direitos sobre ela, podendo assim autorizar a sua republicação em quaisquer meios ou mídias. Entretanto, ele autoriza a sociedade a exercer alguns direitos, desde que para uso não-comercial. Como vedação à utilização comercial deve ser entendido, a título de exemplo, a vedação à utilização, publicação ou quaisquer outros usos pertinentes, por veículos de mídia que possuam finalidades comerciais (jornais, redes de televisão, rádios comerciais, revistas comerciais, gravadoras, editoras etc.). A republicação/publicação das obras nessas mídias comerciais, depende assim, da autorização do autor ou do titular de direitos sobre as obras. Naturalmente, não se encontra prevista nessa vedação a ampla circulação do conteúdo nos termos das licenças Creative Commons, que permitem que os conteúdos, quando este regime seja a cada um deles aplicável, seja livremente circulado por organizações não-governamentais, blogs, fotologs, videologs, rádios comunitárias, televisões universitárias, redes P2P (peer to peer) e outros veículos que não possuem finalidades comerciais.
+\n
+\nh) Marcas, Nomes Comerciais e Outros
+\n
+\n20) Todas as marcas, nomes comerciais e sinais distintivos de qualquer espécie presentes no Pamin, incluindo sua própria marca e designação, são pertencentes a seus respectivos titulares de direito. Para a utilização de quaisquer destas marcas, nomes e sinais, é necessário a obtenção da respectiva autorização dos seus titulares.
+\n
+\ni) Exclusão de Garantias e de Responsabilidade
+\n
+\n21) Por razões técnicas e de operação, não é possível garantir a disponibilidade e continuidade do Pamin, bem como evitar sua falibilidade. Todos os serviços oferecidos pelo Pamin e o próprio Pamin são disponibilizados no estado em que se encontram. A utilização do Pamin e seus serviços deve ser feita sob o próprio risco do usuário. O Pamin é um site e aplicativo aberto e colaborativo, seu conteúdo é construído por uma pluralidade de usuários. O Pamin não fiscaliza esse conteúdo e não pode se responsabilizar de nenhuma forma pelo mesmo. Os usuários ficam desde já advertidos a procederem com sua própria diligência ao utilizar o Pamin.
+\n
+\n22) O Pamin DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER DA FALTA DE CONTINUIDADE OU FUNCIONAMENTO DO Pamin, BEM COMO DAQUELES DECORRENTES OU OCASIONADOS DO OFERECIMENTO DOS SERVIÇOS DO Pamin, DA POSTAGEM E DISPONIBILIZAÇÃO DE CONTEÚDOS. O Pamin É UM MERO CANAL DE COMUNICAÇÃO DISPONIBILIZADO AOS USUÁRIOS E NÃO FISCALIZA CONTEÚDOS. FICA EXCLUÍDA ASSIM TODA E QUALQUER RESPONSABILIDADE POR CONDUTAS OU CONTEÚDOS NO  MBITO DO Pamin. O Pamin DISPONIBILIZA O BOTÃO DEALERTA PELO QUAL PODERÃO SER DENUNCIADOS ABUSOS E VIOLAÇÕES DE DIREITOS, NOS TERMOS DEFINIDOS ACIMA. UMA VEZ QUE A DENÚNCIA DE ABUSOS APARENTE BOA-FÉ E ATENDA AO REQUISITO DO FUMUS BONI IURIS, O Pamin PROCEDERÁ À RETIRADA DESSES CONTEÚDOS, QUE SERÃO ENTÃO EXCLUÍDOS.
+\n
+\n23) Com relação à privacidade dos usuários, o Pamin, enquanto projeto colaborativo, não tem como garantir a privacidade e segurança na utilização do mesmo e de seus serviços com relação aos usuários e terceiros, havendo sempre o risco inerente de que sejam possíveis a terceiros inferir de qualquer forma informações sobre condições, características dados, circunstâncias e classes pertinentes aos usuários do Pamin.
+\n
+\n24) O PAMIN DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER DE QUESTÕES LIGADAS A PRIVACIDADE BEM COMO DE QUESTÕES LIGADAS A INFORMAÇÕES OBTIDAS ATRAVÉS DO PAMIN, NO USO DE SERVIÇOS OU DE QUALQUER OUTRA FORMA, NOS TERMOS ACIMA.
+\n
+\n25) O Pamin não garante a ausência de elementos prejudiciais porventura presentes nos conteúdos, incluindo vírus, que possam produzir danos em sistemas de informação ou em documentos eletrônicos e arquivos armazenados.
+\nO PAMIN DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER POR ELEMENTOS PREJUDICIAIS PRESENTES NOS CONTEÚDOS, QUE POSSAM PRODUZIR DANOS EM SISTEMAS DE INFORMAÇÃO OU EM DOCUMENTOS ELETRÔNICOS E ARQUIVOS ARMAZENADOS.
+\n
+\n26) O Pamin não garante a legalidade, confiabilidade e utilidade dos conteúdos.
+\nO PAMIN DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER DA TRANSMISSÃO, DIFUSÃO, ARMAZENAMENTO, DISPONIBILIZAÇÃO, RECEPÇÃO, OBTENÇÃO OU ACESSO AOS CONTEÚDOS, E EM PARTICULAR, AINDA QUE NÃO DE MODO EXCLUSIVO, PELOS DANOS E PREJUÍZOS QUE POSSAM DECORRER DO:
+\n
+\n(a) DESCUMPRIMENTO DA LEI, DA MORAL, DOS BONS COSTUMES GERALMENTE ACEITOS OU DA ORDEM PÚBLICA, COMO CONSEQUÊNCIA DA TRANSMISSÃO, DIFUSÃO, ARMAZENAMENTO, DISPONIBILIZAÇÃO, RECEPÇÃO, OBTENÇÃO OU ACESSO AOS CONTEÚDOS;
+\n(b) DA INFRAÇÃO AOS DIREITOS DE PROPRIEDADE INTELECTUAL E INDUSTRIAL, DOS SEGREDOS EMPRESARIAIS, DOS COMPROMISSOS CONTRATUAIS DE QUALQUER TIPO, DOS DIREITOS À HONRA, À INTIMIDADE PESSOAL E FAMILIAR, À IMAGEM DAS PESSOAS, DOS DIREITOS DE PROPRIEDADE E DE TODA E QUALQUER NATUREZA PERTENCENTES A UM TERCEIRO COMO CONSEQUÊNCIA DA TRANSMISSÃO, DIFUSÃO, ARMAZENAMENTO, DISPONIBILIZAÇÃO, RECEPÇÃO, OBTENÇÃO OU ACESSO AOS CONTEÚDOS;
+\n(c) DA REALIZAÇÃO DE ATOS DE CONCORRÊNCIA DESLEAL E PUBLICIDADE ILÍCITA COMO CONSEQUÊNCIA DA TRANSMISSÃO, DIFUSÃO, ARMAZENAMENTO, DISPONIBILIZAÇÃO, RECEPÇÃO, OBTENÇÃO OU ACESSO AOS CONTEÚDOS;
+\n(d) DA FALTA DE VERACIDADE, PRECISÃO, EXATIDÃO, PERTINÊNCIA E/OU ATUALIDADE DOS CONTEÚDOS;
+\n(e) DA INADEQUAÇÃO PARA QUALQUER TIPO DE PROPÓSITO, OU DA FRUSTRAÇÃO, DAS EXPECTATIVAS GERADAS PELOS CONTEÚDOS;
+\n(f) DO DESCUMPRIMENTO, ATRASO NO CUMPRIMENTO, CUMPRIMENTO DEFEITUOSO OU FINALIZAÇÃO POR QUALQUER MOTIVO DAS OBRIGAÇÕES CONTRAÍDAS POR TERCEIROS E CONTRATOS REALIZADOS COM TERCEIROS ATRAVÉS DE OU COM BASE NO ACESSO AOS CONTEÚDOS;
+\n(g) DOS VÍCIOS E DEFEITOS DE TODO TIPO EXISTENTES NOS SERVIÇOS PRESTADOS POR TERCEIROS ATRAVÉS DO PAMIN.
+\n
+\n27) O Pamin não garante a veracidade, exatidão, completude e atualidade dos conteúdos.
+\nO PAMIN DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER DA FALTA DE VERACIDADE, EXATIDÃO, COMPLETUDE E/OU ATUALIDADE DOS CONTEÚDOS.
+\n
+\n28) O Pamin, como qualquer outro site da internet e aplicativo de qualquer loja de aplicativos, permite a colocação à disposição dos usuários de links de acesso para outros sites e aplicativos. Os resultados dessas ferramentas são de responsabilidade direta dos terceiros por eles responsáveis. O Pamin não controla os resultados dessas ferramentas, que podem direcionar o usuário a páginas com conteúdos ilícitos ou contrários à moral e aos bons costumes. O Pamin disponibiliza o menu de reportar problemas e sugestões para receber alertas relativos à possibilidade de existência desse problema. O Pamin procede a retirada de acordo com os termos acima especificados. O Pamin não oferece nem comercializa por si ou por terceiros qualquer informação, dica, conteúdo ou serviço disponível em páginas externas, nem controla, aprova, recomenda ou supervisiona conteúdos.
+\nO PAMIN DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER:
+\n(A) DO FUNCIONAMENTO, DISPONIBILIDADE, ACESSIBILIDADE OU CONTINUIDADE DAS PÁGINAS EXTERNAS;
+\n(B) DA MANUTENÇÃO DOS SERVIÇOS, INFORMAÇÃO, DADOS, ARQUIVOS, PRODUTOS E QUALQUER TIPO DE MATERIAL EXISTENTE NAS PÁGINAS EXTERNAS;
+v(C) DA PRESTAÇÃO OU TRANSMISSÃO DOS SERVIÇOS, INFORMAÇÃO, DADOS, ARQUIVOS, PRODUTOS E QUALQUER TIPO DE MATERIAL EXISTENTE NOS SITES E APLICATIVOS LINKADOS;
+\n(D) DA QUALIDADE, LEGALIDADE, CONFIABILIDADE E UTILIDADE DOS SERVIÇOS, INFORMAÇÃO, DADOS, ARQUIVOS, PRODUTOS E QUALQUER TIPO DE MATERIAL EXISTENTE EM PÁGINAS EXTERNAS, DICAS OU QUALQUER OUTRO CONTEÚDO DO SITE E APLICATIVO.
+\n
+\n29) O Pamin não controla o acesso nem a utilização que os usuários fazem dos conteúdos, serviços e do próprio Pamin. O Pamin não garante que os usuários estejam em conformidade com a lei, com os presentes termos de uso ou com quaisquer outros instrumentos normativos aplicáveis, ou da moral e dos bons costumes geralmente aceitos pela ordem pública. O Pamin não verifica e não possui qualquer obrigação de verificar a identidade dos usuários nem a veracidade, completude, autenticidade dos dados que os usuários fornecem sobre si em qualquer circunstância. O Pamin somente fornecerá quaisquer destes dados mediante ordem judicial legalmente válida.
+\nO PAMIN DESSA FORMA SE EXIME E SE EXONERA, EM TODA A EXTENSÃO PERMITIDA PELO ORDENAMENTO JURÍDICO BRASILEIRO E QUALQUER OUTRO APLICÁVEL, DE QUALQUER RESPONSABILIDADE PELOS DANOS DE QUALQUER NATUREZA, LUCROS CESSANTES E DANOS EMERGENTES, QUE POSSAM SER OCASIONADOS OU DECORRER DA UTILIZAÇÃO DOS SERVIÇOS, CONTEÚDOS E DO PRÓPRIO PAMIN QUE POSSAM OCORRER EM RAZÃO DE PROBLEMAS QUANTO À VERACIDADE, COMPLETUDE E AUTENTICIDADE DA INFORMAÇÃO QUE OS USUÁRIOS FORNECEM SOBRE SI MESMOS EM QUALQUER CIRCUNST NCIA, E NÃO SERÁ RESPONSÁVEL POR QUAISQUER DANOS E PREJUÍZOS DE QUALQUER NATUREZA QUE POSSAM SURGIR DEVIDO À UTILIZAÇÃO INDEVIDA DA PERSONALIDADE DE TERCEIROS EFETUADA POR UM USUÁRIO EM QUALQUER CLASSE OU SITUAÇÃO DENTRO DO PAMIN.
+\n
+\nj) Proteção de Dados Pessoais
+\n
+\n30) Para acessar certos serviços e conteúdos do Pamin, é necessário que os usuários forneçam previamente alguns dados de caráter pessoal (dados pessoais). O Pamin adota níveis de segurança dentro dos requisitos legais para a proteção dos dados pessoais. Entretanto, é importante que o usuário tenha ciência de que pela própria natureza e características técnicas da Internet, essa proteção não é infalível e encontra-se sujeita à violação pelas mais diversas práticas maliciosas.
+\n
+\nl) Notificações
+\n31) Todas as notificações por parte de usuários do Pamin deverão ser feitas única e exclusivamente através do e-mail de contato do suporte do Pamin, no email developerspamin@lavid.ufpb.br.
+\nTodas as notificações e comunicações por parte do Pamin aos seus usuários, serão consideradas válidas e eficazes, para todos os efeitos, quando se derem através das seguintes formas:
+\n(a) envio de mensagem por correio eletrônico a qualquer endereço eletrônico fornecido pelo usuário;
+\n(b) envio de carta ao domicílio do usuário quando este tiver fornecido um endereço ao Pamin;
+\n(c) comunicação telefônica ao número fornecido pelo usuário;
+\n(d) através de mensagens postadas no Pamin em locais de acesso habitual do usuário.
+\nNeste sentido, todas as notificações que o Pamin realizar serão consideradas válidas quando efetuadas empregando os dados e através dos meios anteriormente destacados. Para este efeitos, o usuário declara que todos os dados fornecidos são válidos e corretos, e como tais serão considerados, comprometendo-se a comunicar e atualizar junto ao Pamin todas as mudanças relativas a seus dados pessoais.
+\n
+\nm) Suspensão de Serviço, Remoção de Conteúdo e Retirada de Usuários
+\n32) A prestação do serviço Pamin não tem duração definida, mas o mesmo reserva-se o direito de terminar, suspender ou interromper unilateralmente e a qualquer momento, sem necessidade de prévio aviso, a prestação total ou parcial do serviço, ou sua inteira transformação e modificação. Conforme o regime de licenciamento aplicável às contribuições para o site e do Aplicativo, todo conteúdo publicado no Pamin permanecerá publicado mesmo após o desligamento do usuário, que permanece responsável pelo teor de sua publicação e quaisquer violações de direitos decorrentes do conteúdo publicado, mesmo que tenha sido desligado do site e do aplicativo, maneira precisa os títulos e endereços eletrônicos (URLs) dos conteúdos salvo na hipótese do próprio usuário efetuar a remoção dos seus conteúdos do Pamin, por meio da ferramenta para tanto disponível no site e no aplicativo, ou, para casos excepcionais em que por algum motivo relevante o usuário não conseguir efetuar ele mesmo a remoção, através de requisição por meio do canal de contato com a equipe de administração do Pamin, devendo neste segundo caso identificar-se e informar quais conteúdos de sua autoria deseja ter removidos. Vale notar que tendo em vista o regime de licenciamento adotado pelo Pamin e a legislação brasileira de direito autoral, a remoção de conteúdos do Pamin não implica alteração no regime de licenciamento da obra, por exemplo, através da licença Creative Commons, que continuará válida e aplicável de acordo com seus próprios termos. Conforme o disposto acima, o Pamin reserva-se também o direito decorrente de cancelar e interromper o registro de qualquer usuário, a qualquer tempo, por sua única e exclusiva discricionariedade, sem qualquer aviso prévio, ou de remover, remanejar ou alterar qualquer conteúdo a qualquer tempo e sem aviso prévio.
+\n
+\nn) Lei e Foro Aplicáveis
+\n
+\n33) Estes Termos de Uso são regidos pelas leis brasileiras. O Pamin consiste em um serviço cultural de interesse público, que não gera qualquer relação de consumo e não se encontra regido pelo Código de Defesa do Consumidor. Qualquer ação judicial envolvendo o Pamin deverá ser proposta obrigatoriamente no foro da cidade do Rio de Janeiro, com exclusão de qualquer outro, por mais privilegiado que seja.</string>
+
+    <string name="privacity_policy">O aplicativo Pamin, garante segurança e privacidade de identidade aos internautas que dele fazem uso. Dados cadastrados como nome, e-mail, endereço, telefone bem como outros dados solicitados em formulários são protegidos por sistemas avançados de criptografia enquanto são enviados, e mantidos em sigilo em servidores seguros da Universidade Federal da Paraíba.
+ \n
+ \n   O aplicativo Pamin, tem adotado os níveis legalmente requeridos quanto à segurança na proteção de dados, tendo instalado todos os meios e medidas técnicas ao seu alcance para evitar a perda, mau uso, alteração, acesso não autorizado ou subtração indevida dos dados pessoais recolhidos. Não obstante, o usuário deve estar ciente de que as medidas de segurança relativas à internet não são integralmente infalíveis. O aplicativo Pamin, reserva-se o direito de modificar a presente política para adaptá-la a alterações legislativas ou jurisprudências, ou aquelas relativas às práticas comerciais. Em qualquer caso, a equipe de desenvolvimento do Pamin anunciará no aplicativo, por meio de e-mail, as mudanças introduzidas com uma antecedência razoável à sua colocação em prática. Os usuários poderão exercer os direitos de acesso, cancelamento, retificação e oposição, bem como têm reconhecido o direito de obterem informações contatando a equipe de desenvolvimento do Pamin por meio do e-mail jordanlira@lavid.ufpb.br.
+ \n
+ \n   Coleta de informações
+ \n
+ \n  Ao se cadastrar, os clientes determinam voluntariamente que desejam fornecer os seus dados pessoais requeridos para participação de cadastros de registros culturais, promovido pela equipe de desenvolvimento do Pamin.
+ \n
+ \n   Os Dados Pessoais recolhidos pelo aplicativo Pamin serão objeto de tratamento automatizado, sendo incorporados aos correspondentes registros eletrônicos de dados pessoais, dos quais a equipe de desenvolvimento do Pamin será titular e responsável. Os dados obtidos e utilizados pela equipe de desenvolvimento do Pamin bem como pelos parceiros contratados pela equipe de desenvolvimento do Pamin para os serviços oferecidos no aplicativo fazem parte dessa política.
+ \n   Atenção, o aplicativo Pamin não armazena nos nossos servidores, informações de localização específica, tais como coordenadas de latitude e longitude, nem informações específicas do aparelho do cliente, tais como modelo do aparelho. Porém, estes dados são utilizados dentro do dispositivo e não são enviados para os nossos servidores.
+ \n
+ \n   Utilização das informações
+ \n
+ \n   As informações pessoais fornecidas pelos usuários são utilizadas com o propósito de identificar o público participante no concurso Pamin e para o envio de informações operacionais e comerciais relativas ao concurso, por meios tradicionais e/ou eletrônicos.
+ \n
+ \n    O Aplicativo Pamin se compromete a:
+ \n   Corrigir prontamente quaisquer alterações relativas aos dados pessoais do usuário. Para tanto, o usuário deverá informar toda mudança nos respectivos dados por meio da página da equipe de desenvolvimento do Pamin no e-mail de suporte jordanlira@lavid.ufpb.br .
+ \n   Não divulgar sem prévia autorização, em hipótese alguma, o e-mail do internauta que se cadastrar em páginas que requerem preenchimento de dados pessoais - tais como páginas de e-mails e outros que existam ou possam vir a ser criados;
+ \n   Não comercializar ou divulgar os dados de seus clientes para outros fins que não sejam para o uso de cadastro de registros culturais do site e/ou aplicativo Pamin.
+ \n   O aplicativo Pamin adota como política o compromisso de não divulgar informações sobre os acessos realizados por seus usuários, a menos que seja obrigado a fazê-lo mediante ordem judicial ou no estrito cumprimento de norma legal. Da mesma forma, mantém confidenciais os dados cadastrais privados de seus usuários, só os revelando a terceiros nos casos em que não haja vedações legais, ou em razão de ordem judicial ou, ainda, mediante autorização de seus titulares.
+    </string>
+    <string name="culturalRegisterAct_NewPhoto">Nova Foto</string>
+    <string name="title_activity_report_problem">Reporte algum problema/sugestão</string>
+
+</resources>

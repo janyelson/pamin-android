@@ -1,0 +1,8 @@
+<menu xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.lavid.pamin.com.pamin.activities.CulturalRegisterActivity">
+    <!--<item-->
+    <!--android:id="@+id/action_newPhoto"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="@string/culturalRegisterAct_NewPhoto"-->
+    <!--app:showAsAction="never" />-->
+</menu>

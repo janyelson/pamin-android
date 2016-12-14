@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="45dp"
+    android:layout_marginTop="25dp"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/draweritem_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="20dp"
+        app:border="true"
+        app:border_color="#FFF"
+        app:border_width="1dp"
+        app:shadow="true" />
+
+    <TextView
+        android:id="@+id/draweritem_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingTop="4dp"
+        android:singleLine="true"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+</LinearLayout>

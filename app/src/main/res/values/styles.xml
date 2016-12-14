@@ -1,0 +1,31 @@
+<resources>
+
+    <!--NEW-->
+    <style name="NewAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/md_indigo_500</item>
+        <item name="colorPrimaryDark">@color/md_indigo_700</item>
+    </style>
+
+    <style name="dialog" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/md_white_1000</item>
+    </style>
+
+
+    <!--OLD-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/BlueActionBar</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowBackground">@color/md_white_1000</item>
+    </style>
+
+    <style name="BlueActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/md_indigo_500</item>
+    </style>
+
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+
+    </style>
+
+</resources>

@@ -1,0 +1,145 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_400"
+    tools:context="br.lavid.pamin.com.pamin.activities.AboutPaminActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_indigo_500"
+        android:elevation="3dp"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
+        app:title="Sobre o Pamin" />
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tool_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/aboutPamin_card"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="12dp"
+                android:backgroundTint="@color/md_white_1000"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="117dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/paminbiglogo" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/about_pamin"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/aboutpaminpic5" />
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/aboutpaminpic6" />
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/aboutpaminpic1" />
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/aboutpaminpic2" />
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/aboutpaminpic3" />
+
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/aboutpaminpic4" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="12dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/about_conheca_videoBtn"
+                    style="?android:borderlessButtonStyle"
+                    android:layout_width="160dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:elevation="2dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/conhecapamin" />
+
+                <ImageButton
+                    android:id="@+id/about_piollin_videoBtn"
+                    style="?android:borderlessButtonStyle"
+                    android:layout_width="160dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:elevation="2dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/paminnapiollin" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

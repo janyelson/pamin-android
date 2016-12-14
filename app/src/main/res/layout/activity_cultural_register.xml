@@ -1,0 +1,324 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/culturalRegister_background"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/md_grey_300"
+    tools:context="br.lavid.pamin.com.pamin.activities.CulturalRegisterActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/white"
+                android:fillViewport="true"
+                android:foregroundGravity="center_vertical|center_horizontal"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/culturalRegister_gallery"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    android:showDividers="none">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/culturalRegister_cardView1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:elevation="2dp"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardview_default_radius"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.pkmmte.view.CircularImageView
+                        android:id="@+id/culturalRegister_thumbnail"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:border="true"
+                        app:border_color="#FFF"
+                        app:border_width="1dp"
+                        app:shadow="true" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_description"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="60dp"
+                        android:text="Description" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_where"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/culturalRegister_description"
+                        android:layout_alignStart="@+id/culturalRegister_description"
+                        android:layout_alignTop="@+id/culturalRegister_thumbnail"
+                        android:layout_toLeftOf="@+id/culturalRegister_thumbnail"
+                        android:layout_toStartOf="@+id/culturalRegister_thumbnail"
+                        android:text="Where"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/culturalRegister_cardView2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:elevation="2dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardview_default_radius"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/culturalRegister_startDateTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:text="@string/registercultural_activity_starttitle"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_endDateTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/culturalRegister_startDateTitle"
+                        android:layout_alignStart="@+id/culturalRegister_startDateTitle"
+                        android:layout_below="@+id/culturalRegister_startDateTitle"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/culturalregister_activity_endtitle"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_startDate_field"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/culturalRegister_startDateTitle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/culturalRegister_startDateTitle"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toRightOf="@+id/culturalRegister_startDateTitle"
+                        android:gravity="center_vertical"
+                        android:text="Data de inicio" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_endDateField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/culturalRegister_endDateTitle"
+                        android:layout_alignEnd="@+id/culturalRegister_startDate_field"
+                        android:layout_alignLeft="@+id/culturalRegister_startDate_field"
+                        android:layout_alignRight="@+id/culturalRegister_startDate_field"
+                        android:layout_alignStart="@+id/culturalRegister_startDate_field"
+                        android:layout_alignTop="@+id/culturalRegister_endDateTitle"
+                        android:gravity="center_vertical"
+                        android:text="Data do fim" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/culturalRegister_cardView4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:elevation="2dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardview_default_radius"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/culturalRegister_priceTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/culturalRegister_priceTitle"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_priceField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/culturalRegister_priceTitle"
+                        android:layout_alignTop="@+id/culturalRegister_priceTitle"
+                        android:layout_toEndOf="@+id/culturalRegister_priceTitle"
+                        android:layout_toRightOf="@+id/culturalRegister_priceTitle"
+                        android:gravity="center_vertical"
+                        android:text="price" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/culturalRegister_cardView5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:elevation="2dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardview_default_radius"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/culturalRegister_promotorTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/culturalRegister_promotorTitle"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_promotorField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/culturalRegister_promotorTitle"
+                        android:layout_alignTop="@+id/culturalRegister_promotorTitle"
+                        android:layout_toEndOf="@+id/culturalRegister_promotorTitle"
+                        android:layout_toRightOf="@+id/culturalRegister_promotorTitle"
+                        android:gravity="center_vertical"
+                        android:text="promotor" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_promotorContactTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/culturalRegister_promotorTitle"
+                        android:layout_margin="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/culturalRegister_promotorContactTitle"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/culturalRegister_promotorContactField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/culturalRegister_promotorContactTitle"
+                        android:layout_alignTop="@+id/culturalRegister_promotorContactTitle"
+                        android:layout_toEndOf="@+id/culturalRegister_promotorContactTitle"
+                        android:layout_toRightOf="@+id/culturalRegister_promotorContactTitle"
+                        android:gravity="center_vertical"
+                        android:text="contatoDoPromotor" />
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/culturalRegister_cardView3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:elevation="2dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/cardview_default_radius"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/culturalRegister_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:liteMode="true"
+                    app:mapType="normal" />
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
