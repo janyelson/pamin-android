@@ -1,14 +1,17 @@
 package br.lavid.pamin.com.pamin.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,8 +36,8 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,15 +52,21 @@ import br.lavid.pamin.com.pamin.R;
 
 public class LocationGetActivity extends AppCompatActivity implements OnMapReadyCallback { //Adicionado implements OnMapReadyCallback
 
+    private static final String TAG = "MAIN_ACTIVITY_ASYNC";
+
+    private Context context=null;
+
     private GoogleApiClient googleApi;
     private MarkerOptions marker;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private AutoCompleteTextView textField;
     private ArrayAdapter<String> autoCompleteAdapter;
+    private List<Address> addresses;
 
     private String where;
     private double lat, lng;
+    private LatLng pos;
 
     private Collection<Integer> places;
 
@@ -69,6 +78,8 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         else
             getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        context= this;
 
         textField = (AutoCompleteTextView) findViewById(R.id.activity_locationget_field);
         textField.addTextChangedListener(new TextWatcher() {
@@ -89,13 +100,13 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
 
                 LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
                 AutocompleteFilter mAutocompleteFilter = new AutocompleteFilter.Builder()
-                        .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ESTABLISHMENT & AutocompleteFilter.TYPE_FILTER_ADDRESS)
+                        .setTypeFilter(AutocompleteFilter.TYPE_FILTER_GEOCODE)
                         .build();
                 PendingResult result =
                         Places.GeoDataApi.getAutocompletePredictions(googleApi,
                                 s.toString(),
                                 latLngBounds,
-                                mAutocompleteFilter);//AutocompleteFilter.create(places)) para mAutocompleteFilter
+                                mAutocompleteFilter);
 
                 result.setResultCallback(new ResultCallback<AutocompletePredictionBuffer>() {
 
@@ -103,7 +114,6 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
                     public void onResult(AutocompletePredictionBuffer autocompletePredictions) {
                         if (autocompletePredictions.getStatus().isSuccess()) {
                             autoCompleteAdapter.clear();
-                            //Atualizando auto.getDescription() para auto.getFullText(null).toString()
                             for (AutocompletePrediction auto : autocompletePredictions) {
                                 CharacterStyle c = new UnderlineSpan();
                                 autoCompleteAdapter.add(auto.getFullText(null).toString());
@@ -138,10 +148,8 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
 
                         Location userLatlng;
                         if (mMap != null) {
-                            //Adicionado verificação de permissão
-
-                            if(Build.VERSION.SDK_INT==23) {
-                                if (ActivityCompat.checkSelfPermission(LocationGetActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LocationGetActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            if (Build.VERSION.SDK_INT >= 23) {
+                                if (ContextCompat.checkSelfPermission(LocationGetActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(LocationGetActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                     // TODO: Consider calling
                                     //    ActivityCompat#requestPermissions
                                     // here to request the missing permissions, and then overriding
@@ -152,6 +160,7 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
                                     return;
                                 }
                             }
+
                             userLatlng = LocationServices.FusedLocationApi.getLastLocation(googleApi);
                             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(userLatlng.getLatitude(), userLatlng.getLongitude()), 14);
@@ -159,11 +168,18 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
                             mMap.getUiSettings().setMyLocationButtonEnabled(true);
                             mMap.setMyLocationEnabled(true);
 
-                            getAdress(new LatLng(userLatlng.getLatitude(), userLatlng.getLongitude()));
-                            Toast.makeText(LocationGetActivity.this, "Just Fine, mMap is null", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Toast.makeText(LocationGetActivity.this, "Erro, mMap is null", Toast.LENGTH_LONG).show();
+
+                            pos = new LatLng(userLatlng.getLatitude(), userLatlng.getLongitude());
+
+                            mMap.clear();
+                            marker = new MarkerOptions()
+                                    .position(pos)
+                                    .title("Aqui!");
+                            mMap.addMarker(marker);
+
+                            (new GeocodeTask()).execute();
+                        } else {
+                            Toast.makeText(LocationGetActivity.this, "Erro in load google maps", Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -212,21 +228,9 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {
-            MapFragment mapFrag = ((MapFragment) getFragmentManager().findFragmentById(R.id.activity_locationget_map));//getMap()
-            mapFrag.getMapAsync(LocationGetActivity.this);
-            if (mMap != null) {
-                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        getAdress(latLng);
-                    }
-                });
-                //DO THINGS
-            }
-
+            ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.activity_location_get_map)).getMapAsync(LocationGetActivity.this);
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -252,33 +256,113 @@ public class LocationGetActivity extends AppCompatActivity implements OnMapReady
         finish();
     }
 
-    public void getAdress(LatLng latLng) {
-        mMap.clear();
-        marker = new MarkerOptions()
-                .position(latLng)
-                .title("Aqui!");
-        mMap.addMarker(marker);
+    public void getAdress(Context ctx, LatLng latLng) {
 
         Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(getApplication(), Locale.getDefault());
+
+        //List<Address> addresses;
+        geocoder = new Geocoder(ctx, Locale.getDefault());
 
         lat = latLng.latitude;
         lng = latLng.longitude;
 
         try {
+            int n = geocoder.getFromLocation(lat, lng, 2).size();
+            Toast.makeText(this, "Tamanho do addresses: " + n, Toast.LENGTH_LONG).show();
             addresses = geocoder.getFromLocation(lat, lng, 1);
-            textField.setText(addresses.get(0).getAddressLine(0));
-            where = addresses.get(0).getAddressLine(0);
+            //textField.setText(addresses.get(0).getAddressLine(0));
+            //where = addresses.get(0).getAddressLine(0);
         } catch (IOException e) {
             e.printStackTrace();
+
         }
+
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {//Adicionado com implements OnMapReadyCallback
-        mMap = googleMap;
+    public void onMapReady(GoogleMap googleMap) {
+        this.mMap = googleMap;
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                Toast.makeText(LocationGetActivity.this, "Error, permission", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        mMap.setMyLocationEnabled(true);
 
+        if (mMap != null) {
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    pos = latLng;
 
+                    mMap.clear();
+                    marker = new MarkerOptions()
+                            .position(latLng)
+                            .title("Aqui!");
+                    mMap.addMarker(marker);
+
+                    (new GeocodeTask()).execute();
+                }
+            });
+            //DO THINGS
+        }
     }
+
+    private class GeocodeTask extends AsyncTask<Void, Void, Address> {
+
+        String errorMessage = "Error, address invalid";
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Address doInBackground(Void ... none) {
+
+            Geocoder geocoder = new Geocoder(LocationGetActivity.this, Locale.ENGLISH);
+
+                double latitude = pos.latitude;
+                double longitude = pos.longitude;
+
+                lat = latitude;
+                lng = longitude;
+
+                try {
+                    addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                } catch (IOException ioException) {
+                    errorMessage = "Service Not Available";
+                    Log.e(TAG, errorMessage, ioException);
+                } catch (IllegalArgumentException illegalArgumentException) {
+                    errorMessage = "Invalid Latitude or Longitude Used";
+                    Log.e(TAG, errorMessage + ". " +
+                            "Latitude = " + latitude + ", Longitude = " +
+                            longitude, illegalArgumentException);
+                }
+
+            if(addresses != null && addresses.size() > 0)
+                return addresses.get(0);
+
+            return null;
+        }
+
+        protected void onPostExecute(Address address) {
+            if(address == null) {
+
+                textField.setText(errorMessage);
+            }
+            else {
+                textField.setText(addresses.get(0).getAddressLine(0));
+                where = addresses.get(0).getAddressLine(0);
+            }
+        }
+    }
+
 }

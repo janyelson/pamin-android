@@ -1,16 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_blue_grey_100">
+    android:background="@color/md_blue_grey_100"
+    >
 
     <fragment
-        android:id="@+id/activity_locationget_map"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="br.lavid.pamin.com.pamin.activities.LocationGetActivity"
+        android:id="@+id/activity_location_get_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="65dp"
-        tools:context="br.lavid.pamin.com.pamin.activities.LocationGetActivity" />
+         />
 
     <AutoCompleteTextView
         android:id="@+id/activity_locationget_field"

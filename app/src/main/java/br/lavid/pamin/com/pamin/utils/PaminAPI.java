@@ -45,7 +45,7 @@ public class PaminAPI {
 
     public final static String API_PAMIN = "http://pamin.lavid.ufpb.br:3333/api";
 
-    public final static String API_REGISTERS = "/registers";
+    public final static String API_REGISTERS = "/registers.json";
     public final static String API_SIGNUP = "/users.json";
     public final static String API_SIGNIN = "/auth/sign_in";
 

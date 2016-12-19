@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +31,6 @@ import br.lavid.pamin.com.pamin.models.User;
 
 public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragment implements OnMapReadyCallback {
 
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS = 123 ;
     private GoogleMap googleMap;
     private LinkedList<CulturalRegister> allList;
 
@@ -49,7 +47,6 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.getMapAsync(this);
-        //getMapAsync(this);
     }
 
     @Override
@@ -89,47 +86,20 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
             }
         });
 
-        //Adicionado verificação de permissões
-        /** Verificar se o MainMapFragment.super.getContext() gerar algum bug**/
-
-
-        //if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            //Toast.makeText(getActivity(), "Error permission denied here in MainMapFragment", Toast.LENGTH_LONG).show();
-            //return;
-        //}
-        if(Build.VERSION.SDK_INT==23) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                } else {
-
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            MY_PERMISSIONS_REQUEST_ACCESS);
-                }
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
-                } else {
-
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                            MY_PERMISSIONS_REQUEST_ACCESS);
-
-                }
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(MainMapFragment.this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainMapFragment.this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                //Toast.makeText(getActivity(), "Error permission denied here in MainMapFragment", Toast.LENGTH_LONG).show();
+                return;
             }
         }
+
         map.setMyLocationEnabled(true);
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -138,7 +108,7 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
 
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
-        if (location != null) // map.getMyLocation() to location
+        if (location != null)
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude())
                     , 12.0f));
@@ -198,47 +168,21 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
             );
         }
 
-        if (googleMap == null)
-            return;
-        //Adicionado verificação de permissões
-        /** Verificar se o MainMapFragment.super.getContext() gerar algum bug**/
-        //if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            //return;
-        //}
-        if(Build.VERSION.SDK_INT==23) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (googleMap == null) {return;}
 
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                } else {
-
-                    // No explanation needed, we can request the permission.
-
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            MY_PERMISSIONS_REQUEST_ACCESS);
-                }
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
-                } else {
-
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                            MY_PERMISSIONS_REQUEST_ACCESS);
-                }
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(MainMapFragment.this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainMapFragment.this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
         }
+
         googleMap.setMyLocationEnabled(true);
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -247,7 +191,7 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
 
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
-        if (googleMap.getMyLocation() != null) // googleMap.getMyLocation() to location
+        if (location != null)
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude())
                     , 12.0f));
@@ -255,21 +199,5 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12.0f));
 
         pinElements();
-    }
-
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS: {
-
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                }
-                return;
-            }
-
-        }
     }
 }

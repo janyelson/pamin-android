@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -205,14 +206,6 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
         b.setText("Data inicial Indefinida");
         b = (Button) findViewById(R.id.endDateBtn);
         b.setText("Data final Indefinida");
-        eWhere = (Button) findViewById(R.id.formRegister_WhereButton);
-        eWhere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(getApplicationContext(),
-                        LocationGetActivity.class), REQUEST_PLACE);
-            }
-        });
 
     }
 
@@ -463,6 +456,11 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
 
     }
 
+    public void addLocal(View v) {
+
+        startActivityForResult(new Intent(getApplicationContext(), LocationGetActivity.class), REQUEST_PLACE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -495,6 +493,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
         }
 
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
+
             Log.v("NewRegAct", "REQUEST SELECT_PHOTO result OK");
             aux++;
             imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -522,34 +521,41 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
             return;
         }
         if (requestCode == REQUEST_PLACE && resultCode == RESULT_OK) {
+
             this.latitude = data.getDoubleExtra("lat", 0);
             this.longitude = data.getDoubleExtra("lng", 0);
-            //Verificar as permissões
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
+
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
             }
-            googleMap.setMyLocationEnabled(true);//Atualizando mapView.getMap() para googleMap
-            //mapView.getMap().setMyLocationEnabled(true)
+
+            mapView.getMapAsync(this);
+            googleMap.setMyLocationEnabled(true);
+
             googleMap.clear();
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latitude, longitude))
                     .title("Aqui!"));
 
+
             this.where = data.getStringExtra("where");
 
             addressView.setVisibility(View.VISIBLE);
-            mapView.setVisibility(View.VISIBLE);
+
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                     new LatLng(latitude, longitude), 14);
             googleMap.animateCamera(cameraUpdate);
+
             mapView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -557,6 +563,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                             LocationGetActivity.class), REQUEST_PLACE);
                 }
             });
+
             addressView.setText(where);
         }
     }
