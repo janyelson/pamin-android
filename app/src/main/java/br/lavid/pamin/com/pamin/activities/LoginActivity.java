@@ -1,10 +1,13 @@
 package br.lavid.pamin.com.pamin.activities;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -58,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     public void enterWithEmail(View v) {
         MaterialFeatures.hideKeyboard(this);
 
-        if(!InternetFeatures.hasInternet(this)) {
+        if (!InternetFeatures.hasInternet(this)) {
             new AlertDialog.Builder(this, R.style.dialog)
                     .setTitle("Acesse a internet")
                     .setMessage("Acesse a internet para fazer login no app do Pamin")
@@ -83,6 +86,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private String getSmartphoneEmail() {
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return null;
+        }
         Account[] accounts = AccountManager.get(this).getAccounts();
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {

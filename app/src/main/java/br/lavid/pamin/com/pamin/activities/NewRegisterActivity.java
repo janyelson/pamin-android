@@ -82,6 +82,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
     private Bitmap bmpImage;
 
     private int aux = 0;
+    private int aux2 = 0;
 
     private int startYear = c.get(Calendar.YEAR);
     private int startMonth = c.get(Calendar.MONTH);
@@ -152,6 +153,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
         loading = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
 
         mapView = (MapView) findViewById(R.id.formRegister_map);
+        aux2 = 0;
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
         addressView = (TextView) findViewById(R.id.formRegisterr_textAdress);
@@ -205,6 +207,8 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
         b.setText("Data inicial Indefinida");
         b = (Button) findViewById(R.id.endDateBtn);
         b.setText("Data final Indefinida");
+
+        /*
         eWhere = (Button) findViewById(R.id.formRegister_WhereButton);
         eWhere.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +217,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                         LocationGetActivity.class), REQUEST_PLACE);
             }
         });
+        */
 
     }
 
@@ -463,6 +468,11 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
 
     }
 
+    public void addLocal(View v) {
+
+        startActivityForResult(new Intent(getApplicationContext(), LocationGetActivity.class), REQUEST_PLACE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -495,6 +505,10 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
         }
 
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
+
+            Toast.makeText(this, "IS ALL RIGHT HERE", Toast.LENGTH_LONG).show();
+
+
             Log.v("NewRegAct", "REQUEST SELECT_PHOTO result OK");
             aux++;
             imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -522,8 +536,11 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
             return;
         }
         if (requestCode == REQUEST_PLACE && resultCode == RESULT_OK) {
+            aux2 = 1;
+            Toast.makeText(this, "Request susseful made", Toast.LENGTH_LONG).show();
             this.latitude = data.getDoubleExtra("lat", 0);
             this.longitude = data.getDoubleExtra("lng", 0);
+
             //Verificar as permissões
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -535,21 +552,29 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            googleMap.setMyLocationEnabled(true);//Atualizando mapView.getMap() para googleMap
+            //Atualizando mapView.getMap() para googleMap
+
+
+            mapView.getMapAsync(this);
+            googleMap.setMyLocationEnabled(true);
             //mapView.getMap().setMyLocationEnabled(true)
+
             googleMap.clear();
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latitude, longitude))
                     .title("Aqui!"));
 
+
             this.where = data.getStringExtra("where");
 
             addressView.setVisibility(View.VISIBLE);
-            mapView.setVisibility(View.VISIBLE);
+            //mapView.setVisibility(View.VISIBLE);
+
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                     new LatLng(latitude, longitude), 14);
             googleMap.animateCamera(cameraUpdate);
+
             mapView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -557,7 +582,19 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                             LocationGetActivity.class), REQUEST_PLACE);
                 }
             });
+
+            /*
+            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    startActivityForResult(new Intent(getApplicationContext(),
+                            LocationGetActivity.class), REQUEST_PLACE);
+                }
+            });
+            */
+
             addressView.setText(where);
+            //mapView.getMapAsync(this);
         }
     }
 

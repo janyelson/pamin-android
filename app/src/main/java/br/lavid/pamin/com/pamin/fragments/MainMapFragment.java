@@ -247,7 +247,7 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
 
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
-        if (googleMap.getMyLocation() != null) // googleMap.getMyLocation() to location
+        if (location != null) // googleMap.getMyLocation() to location
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude())
                     , 12.0f));

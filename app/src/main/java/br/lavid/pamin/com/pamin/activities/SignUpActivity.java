@@ -1,11 +1,14 @@
 package br.lavid.pamin.com.pamin.activities;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -28,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     private AppCompatEditText nameField, passField, confPassField, emailField;
     private User user;
     private AppCompatButton cancelBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         try {
             if (passField.getText().toString().equals(confPassField.getText().toString())
-                    && isValidEmail(emailField.getText()) && !(nameField.getText().toString().trim().equals("")) ) {
+                    && isValidEmail(emailField.getText()) && !(nameField.getText().toString().trim().equals(""))) {
 
                 loading = ProgressDialog.show(this, "", "Criando seu usuário...", true);
 
@@ -87,8 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         });
 
-            }
-            else {
+            } else {
                 String message;
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Algo deu errado!");
@@ -100,12 +103,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if ((nameField.getText().toString().trim().equals(""))) {
                     message = "Informe um nome.";
                     alert.setMessage(message);
-                }
-                else if (!isValidEmail(emailField.getText())) {
+                } else if (!isValidEmail(emailField.getText())) {
                     message = "Verifique o endereço de e-mail.";
                     alert.setMessage(message);
-                }
-                else if(!passField.getText().toString().equals(confPassField.getText().toString())) {
+                } else if (!passField.getText().toString().equals(confPassField.getText().toString())) {
                     message = "As senhas não estão iguais.";
                     alert.setMessage(message);
                 }
@@ -144,6 +145,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     public String getSmartphoneEmail() {
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return null;
+        }
         Account[] accounts = AccountManager.get(this).getAccounts();
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {

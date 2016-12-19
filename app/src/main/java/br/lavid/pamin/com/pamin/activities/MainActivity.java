@@ -60,7 +60,11 @@ import br.lavid.pamin.com.pamin.utils.TabletFeatures;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_REPORT = 404;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS = 123;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 100;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
+    private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS= 102;
+    private static final int MY_PERMISSIONS_REQUEST_INTERNET= 103;
+
     public static LinkedList<CulturalRegister> actCulturalRegisters;
 
     //FACEBOOK
@@ -89,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout Drawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    //AUX
+    private int auxPermission = 0;
+
+
     /**
      * Get a list with ALL the cultural registers (will be change later with the new API)
      *
@@ -110,9 +118,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        if(Build.VERSION.SDK_INT==23) {
-
+        if (Build.VERSION.SDK_INT == 23) {
+            int count = 0;
             verifyPermission();
+            while (true) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                    break;
+                }
+                if(auxPermission == -1) {
+                    break;
+                }
+            }
+        }
+
+        if(auxPermission == -1) {
+            return;
         }
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -126,33 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (!InternetFeatures.hasInternet(this)) {
             Toast.makeText(this, " Acesse a internet para atualizar os cards ", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void verifyPermission() {
-
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-
-            } else {
-
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_ACCESS);
-            }
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
-            } else {
-
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_ACCESS);
-            }
         }
     }
 
@@ -345,45 +338,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onConnected(Bundle bundle) {
                         if (User.getInstance(MainActivity.this).getUserLocation() == null)
-
-                            //if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                                //Toast.makeText(MainActivity.this, "Error permission denied here in MainActivity", Toast.LENGTH_LONG).show();
-                                //return;
-                            //}
-
-                            if(Build.VERSION.SDK_INT==23) {
-                                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                                            Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                                    } else {
-
-                                        ActivityCompat.requestPermissions(MainActivity.this,
-                                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                                MY_PERMISSIONS_REQUEST_ACCESS);
-                                    }
-
-                                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                                            Manifest.permission.ACCESS_COARSE_LOCATION)) {
-
-                                    } else {
-
-                                        ActivityCompat.requestPermissions(MainActivity.this,
-                                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                                                MY_PERMISSIONS_REQUEST_ACCESS);
-                                    }
+                            if(Build.VERSION.SDK_INT>=23) {
+                                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                    // TODO: Consider calling
+                                    //    ActivityCompat#requestPermissions
+                                    // here to request the missing permissions, and then overriding
+                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                    //                                          int[] grantResults)
+                                    // to handle the case where the user grants the permission. See the documentation
+                                    // for ActivityCompat#requestPermissions for more details.
+                                    return;
                                 }
                             }
-
-                            //Toast.makeText(MainActivity.this, "All fine, here in MainActivity", Toast.LENGTH_LONG).show();
                             User.getInstance(MainActivity.this).setUserLocation(LocationServices.FusedLocationApi.getLastLocation(
                                     mGoogleApiClient));
                     }
@@ -591,17 +557,94 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void verifyPermission() {
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION );
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.GET_ACCOUNTS)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.GET_ACCOUNTS},
+                        MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.INTERNET)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.INTERNET},
+                        MY_PERMISSIONS_REQUEST_INTERNET);
+            }
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS: {
+            case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
 
                 } else {
+                    auxPermission = -1;
+                }
+                return;
+            }
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+
+                } else {
+                    auxPermission = -1;
+                }
+                return;
+            }
+            case MY_PERMISSIONS_REQUEST_GET_ACCOUNTS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+                } else {
+                    auxPermission = -1;
+                }
+                return;
+            }
+            case MY_PERMISSIONS_REQUEST_INTERNET: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+                } else {
+                    auxPermission = -1;
                 }
                 return;
             }
