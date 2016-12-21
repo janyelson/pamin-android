@@ -554,8 +554,6 @@ public class MainActivity extends AppCompatActivity {
                     return mainMapFragment;
             }
         }
-
-
     }
 
     private void verifyPermission() {
