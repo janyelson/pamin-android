@@ -74,9 +74,13 @@ public class LoginActivity extends AppCompatActivity {
         user.loginUser(emailField.getText().toString(), passField.getText().toString(), new User.CompleteCallback() {
             @Override
             public void completeCallback(boolean successful) {
-                if (successful) {
+                if (successful)
+                {
+                    //loading.dismiss();
+                    //Toast.makeText(getApplicationContext(), "OK!!!", Toast.LENGTH_SHORT).show();
                     goToMain();
                 } else {
+                    //loading.dismiss();
                     Toast.makeText(getApplicationContext(), "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show();
                 }
                 loading.dismiss();

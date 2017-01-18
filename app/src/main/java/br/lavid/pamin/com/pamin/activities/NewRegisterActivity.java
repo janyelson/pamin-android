@@ -37,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,13 +96,14 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
     private int endHour = c.get(Calendar.HOUR_OF_DAY);
     private int endMin = c.get(Calendar.MINUTE);
 
+    private Calendar calStartDate = Calendar.getInstance();
+    private Calendar calEndDate = Calendar.getInstance();
     private Date startDate;
     private Date endDate;
 
     private String category, where, picVidURL;
     private double latitude, longitude;
 
-    private JSONObject jsonObject = new JSONObject();
     private NumberFormat formatter = new DecimalFormat("00");
 
     /**
@@ -218,6 +220,8 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         startHour = hourOfDay;
                         startMin = minute;
+                        calStartDate.set(Calendar.HOUR, hourOfDay);
+                        calStartDate.set(Calendar.MINUTE, minute);
 
                         b = (Button) findViewById(R.id.startTimeBtn);
                         b.setText((formatter.format(startHour)) + ":" + formatter.format(startMin));
@@ -240,6 +244,9 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         endHour = hourOfDay;
                         endMin = minute;
+
+                        calEndDate.set(Calendar.HOUR, hourOfDay);
+                        calEndDate.set(Calendar.MINUTE, minute);
 
                         b = (Button) findViewById(R.id.endTimeBtn);
                         b.setText((formatter.format(endHour)) + ":" + formatter.format(endMin));
@@ -274,6 +281,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                         cal.set(startYear, startMonth, startDay);
                         date = cal.getTime();
                         startDate = date;
+                        calStartDate.set(year, monthOfYear, dayOfMonth);
 
                         SimpleDateFormat nameDate = new SimpleDateFormat(startDay + " 'de' MMM 'de' yyy");
 
@@ -305,7 +313,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                         cal.set(endYear, endMonth, endDay);
                         date = cal.getTime();
                         endDate = date;
-
+                        calEndDate.set(year, monthOfYear, dayOfMonth);
                         SimpleDateFormat nameDate = new SimpleDateFormat(endDay + " 'de' MMM 'de' yyy");
 
                         b = (Button) findViewById(R.id.endDateBtn);
@@ -354,9 +362,8 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void sendRegister(View v) {
-        String price, promot, contact;
+        String price = null, promot = null, contact = null;
         User user = User.getInstance(this);
-
 
         if (checkInput()) {
             if (!InternetFeatures.hasInternet(this)) {
@@ -366,7 +373,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                         .show();
                 return;
             }
-
+            JSONObject json = new JSONObject();
             eTitle = (EditText) findViewById(R.id.formRegister_titleField);
             eWhere = (Button) findViewById(R.id.formRegister_WhereButton);
             eDesc = (EditText) findViewById(R.id.formRegister_DescField);
@@ -398,25 +405,41 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
 
             try {
                 //headers
-                jsonObject.put("what", title);
-                jsonObject.put("where", where);
+                json.put("what", title);
+                json.put("where", where);
                 if (startDate != null) {
-                    jsonObject.put("start_date", PaminAPI.convertDateToJsonDate(startDate));
+                    json.put("start_date", PaminAPI.convertDateToJsonDate(startDate, calStartDate));
                 }
                 if (endDate != null) {
-                    jsonObject.put("end_date", PaminAPI.convertDateToJsonDate(endDate));
+                    json.put("end_date", PaminAPI.convertDateToJsonDate(endDate, calEndDate));
                 }
-                jsonObject.put("price", price);
-                jsonObject.put("promotor", promot);
-                jsonObject.put("promotor_contact", contact);
-                jsonObject.put("latitude", latitude);
-                jsonObject.put("longitude", longitude);
-                jsonObject.put("description", desc);
-                jsonObject.put("category_id", PaminAPI.getCategoryID(category));
-//                JSONArray picsVidsJson = new JSONArray();
-//                if (picVidURL != null)
-//                    picsVidsJson.put(picVidURL);
-//                jsonObject.put("pictures_videos", picsVidsJson);
+
+                if(price != null) {
+                    json.put("price", Double.parseDouble(price));
+                }
+                if(promot != null) {
+                    json.put("promotor", promot);
+                }
+
+                if(contact != null) {
+                    json.put("promotor_contact", contact);
+
+                }
+
+                json.put("latitude", latitude);
+                json.put("longitude", longitude);
+                json.put("description", desc);
+                json.put("category_id", PaminAPI.getCategoryID(category));
+                JSONArray picsVidsJson = new JSONArray();
+
+                picsVidsJson.put("http://data.whicdn.com/images/9500691/large.jpg");
+                //picsVidsJson.put("something");
+
+                if (picVidURL != null) {
+                    picsVidsJson.put(picVidURL);
+                }
+
+                json.put("pictures", picsVidsJson);
 
             } catch (JSONException e) {
                 Log.e("JSON erro", "unexpected JSON exception", e);
@@ -427,7 +450,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
             Log.v("User", "USERNAME: " + User.getInstance(this).getName() +
                     "\nEMAIL: " + User.getInstance(this).getEmail() +
                     "\nTOKEN: " + User.getInstance(this).getToken());
-            new PaminAPI().sendNewCultRegister(user, jsonObject, getApplicationContext(), new PaminAPI.SendRegisterCallback() {
+            new PaminAPI().sendNewCultRegister(user, json, getApplicationContext(), new PaminAPI.SendRegisterCallback() {
                 @Override
                 public void registerCallback(boolean successful, CulturalRegister culturalRegister) {
                     Log.v("NewRegAct", "Sending Over");

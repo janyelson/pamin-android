@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -42,11 +43,11 @@ import br.lavid.pamin.com.pamin.models.User;
  * Implement the callbacks to get the registers when the functions will over
  */
 public class PaminAPI {
-
+    //"http://pamin.lavid.ufpb.br:3333/api"
     public final static String API_PAMIN = "http://pamin.lavid.ufpb.br:3333/api";
 
-    public final static String API_REGISTERS = "/registers.json";
-    public final static String API_SIGNUP = "/users.json";
+    public final static String API_REGISTERS = "/registers";
+    public final static String API_SIGNUP = "/users";
     public final static String API_SIGNIN = "/auth/sign_in";
 
     private RequestQueue mRequestQueue;
@@ -57,15 +58,56 @@ public class PaminAPI {
      * @param date the Java Date
      * @return if not null, return the Date in Json Format, ex: 2014-11-30T00:00:00.000Z
      */
+    public static String convertDateToJsonDate(Date date, Calendar calendar) {
+        try {
+            //Calendar cal = Calendar.getInstance();
+            //cal.setTime(date);
+            String result = "";
+            int month = calendar.get(Calendar.MONTH) + 1;
+            result += calendar.get(Calendar.YEAR) + "-";
+            //result += Integer.toString(cal.get(Calendar.YEAR)) + "-";
+            result += month + "-";
+            //result += Integer.toString(cal.get(Calendar.MONTH)) + "-";
+            result += calendar.get(Calendar.DAY_OF_MONTH) + "T";
+            //result += Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "T";
+            result += date.getHours() + ":";
+            //result += Integer.toString(cal.get(Calendar.HOUR)) + ":";
+            result += date.getMinutes() + ":";
+            //result += Integer.toString(cal.get(Calendar.MINUTE)) + ":";
+            result += date.getSeconds() + ".000Z";
+            //result += Integer.toString(cal.get(Calendar.SECOND)) + ".000Z";
+
+
+            //result = date.getDay() + "-" + date.getMonth() + "-" + date.getYear() + "";
+            Log.e("Pamin Data", result);
+            return result;
+        } catch (Exception error) {
+            return null;
+        }
+    }
+
     public static String convertDateToJsonDate(Date date) {
         try {
+            //Calendar cal = Calendar.getInstance();
+            //cal.setTime(date);
             String result = "";
+
             result += date.getYear() + "-";
+            //result += Integer.toString(cal.get(Calendar.YEAR)) + "-";
             result += date.getMonth() + "-";
+            //result += Integer.toString(cal.get(Calendar.MONTH)) + "-";
             result += date.getDay() + "T";
+            //result += Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "T";
             result += date.getHours() + ":";
+            //result += Integer.toString(cal.get(Calendar.HOUR)) + ":";
             result += date.getMinutes() + ":";
+            //result += Integer.toString(cal.get(Calendar.MINUTE)) + ":";
             result += date.getSeconds() + ".000Z";
+            //result += Integer.toString(cal.get(Calendar.SECOND)) + ".000Z";
+
+
+            //result = date.getDay() + "-" + date.getMonth() + "-" + date.getYear() + "";
+            Log.e("Pamin Data", result);
             return result;
         } catch (Exception error) {
             return null;
@@ -181,7 +223,40 @@ public class PaminAPI {
     public void sendNewCultRegister(final User user, JSONObject json, Context ctx, final SendRegisterCallback sendCallback) {
 
         Log.v("PaminAPI", json.toString());
+        String urlRegisters = API_PAMIN + API_REGISTERS;
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, urlRegisters, json, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.v("PaminAPI", response.toString());
+                sendResponse(response, sendCallback);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("PaminAPI", "ERROR: " + error.toString());
+                sendResponse(null, sendCallback);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
 
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("Content-Type", "application/json");
+                map.put("X-User-Email", user.getEmail());
+                map.put("X-User-Token", user.getToken());
+
+                return map;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ctx);
+
+
+        requestQueue.add(jsonRequest);
+
+
+        /*
         try {
             JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, API_PAMIN + API_REGISTERS, json, new Response.Listener<JSONObject>() {
                 @Override
@@ -192,7 +267,38 @@ public class PaminAPI {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    Log.e("PaminAPI", "ERROR: " + volleyError.getMessage());
+                    Log.e("PaminAPI", "ERROR: " + volleyError.getCause());
+                    //volleyError.printStackTrace();
+                    //Log.e("PaminAPI", "TimeoutError: " + (volleyError instanceof TimeoutError));
+                    //Log.e("PaminAPI", "NoConnectionError: " + (volleyError instanceof NoConnectionError));
+                    //Log.e("PaminAPI", "NetWorkError: " + (volleyError instanceof NetworkError));
+                    //Log.e("PaminAPI", "AuthFailureError: " + (volleyError instanceof AuthFailureError));
+                    //Log.e("PaminAPI", "ServerError: " + (volleyError instanceof ServerError));
+                    //Log.e("PaminAPI", "ParseError: " + (volleyError instanceof ParseError));
+                    //Log.e("PaminAPI", "NullPointerException: " + (volleyError.getCause() instanceof NullPointerException));
+
+                    if (volleyError.networkResponse != null) {
+                        // 401 => login again
+                        Log.e("PaminAPI", String.valueOf(volleyError.networkResponse.statusCode));
+
+                        if (volleyError.networkResponse.data != null) {
+                            // most likely JSONString
+                            //Log.e("PaminAPI", new String(volleyError.networkResponse.data, StandardCharsets.UTF_8));
+
+                        }
+                    }
+                    else if (volleyError.getMessage() == null) {
+                        Log.e("PaminAPI", "e.getMessage");
+                        Log.e("PaminAPI", "" + volleyError.getMessage());
+
+                    }
+                    else if (volleyError.getCause() != null) {
+                        Log.e("PaminAPI", "e.getCause");
+                        Log.e("PaminAPI", "" + volleyError.getCause().getMessage());
+
+                    }
+
+
                     sendResponse(null, sendCallback);
                 }
             }) {
@@ -214,7 +320,7 @@ public class PaminAPI {
             Log.e("PAMINAPI", error.getMessage());
         }
 
-
+        */
     }
 
     private void sendResponse(JSONObject response, SendRegisterCallback callback) {
@@ -264,14 +370,21 @@ public class PaminAPI {
                     promotor, promotor_contact, title, description,
                     null, startDate, endDate, price, latitude, longitude, category, where);
 
-            for (int i = 0; i < jsonResponse.getJSONArray("pictures_videos").length(); i++) {
-                if (jsonResponse.getJSONArray("pictures_videos").get(i).toString().endsWith(".jpg") ||
-                        jsonResponse.getJSONArray("pictures_videos").get(i).toString().endsWith(".jpeg") ||
-                        jsonResponse.getJSONArray("pictures_videos").get(i).toString().endsWith(".png") ||
-                        jsonResponse.getJSONArray("pictures_videos").get(i).toString().endsWith(".webm"))
-                    culturalRegister.addPicture(new CloudnaryPicture(jsonResponse.getJSONArray("pictures_videos").get(i).toString()));
+            for (int i = 0; i < jsonResponse.getJSONArray("pictures").length(); i++) {
+                if (jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".jpg") ||
+                        jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".jpeg") ||
+                        jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".png") ||
+                        jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".webm"))
+                    culturalRegister.addPicture(new CloudnaryPicture(jsonResponse.getJSONArray("pictures").get(i).toString()));
             }
-
+            /*
+            //Passando de Array para string - Apenas uma imagem
+            if (jsonResponse.getString("pictures").endsWith(".jpg") ||
+                    jsonResponse.getString("pictures").endsWith(".jpeg") ||
+                    jsonResponse.getString("pictures").endsWith(".png") ||
+                    jsonResponse.getString("pictures").endsWith(".webm"))
+                culturalRegister.addPicture(new CloudnaryPicture(jsonResponse.getString("pictures")));
+            */
             callback.registerCallback(true, culturalRegister);
 
         } catch (Exception e) {
@@ -304,9 +417,11 @@ public class PaminAPI {
             json.put("description", cultReg.getDescription());
 
             JSONArray picsVidsJson = new JSONArray();
-            for (CloudnaryPicture cloudPic : cultReg.getPictures())
+            for (CloudnaryPicture cloudPic : cultReg.getPictures()) {
                 picsVidsJson.put(cloudPic.getCompleteUrl());
-            json.put("pictures_videos", picsVidsJson);
+            }
+
+            json.put("pictures", picsVidsJson);
 
             new JsonObjectRequest(Request.Method.PUT, API_PAMIN + API_REGISTERS, json, new Response.Listener<JSONObject>() {
                 @Override

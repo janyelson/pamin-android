@@ -284,6 +284,7 @@ public class CulturalRegisterActivity extends AppCompatActivity {
             case "Saberes": {
                 color = getResources().getColor(R.color.know_color);
 
+
                 break;
             }
             case "Objetos": {

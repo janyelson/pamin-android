@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,6 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
             addAll(registersList);
             notifyDataSetChanged();
         }
-
     }
 
     private void removeAll() {
@@ -181,35 +182,74 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
         switch (culturalRegister.getCategory()) {
             case "Lugares": {
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.placeslarge);
-                backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.places_color));
+                if(Build.VERSION.SDK_INT >= 23) {
+                    backgroundImage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.places_color));
+                }
+                else {
+                    backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.places_color));
+
+                }
                 break;
             }
             case "Celebrações": {
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.celeblarge);
-                backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.celeb_color));
+
+                if(Build.VERSION.SDK_INT >= 23) {
+                    backgroundImage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.celeb_color));
+                }
+                else {
+                    backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.celeb_color));
+
+                }
 
                 break;
             }
             case "Saberes": {
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.knowlarge);
-                backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.know_color));
+
+                if(Build.VERSION.SDK_INT >= 23) {
+                    backgroundImage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.know_color));
+                }
+                else {
+                    backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.know_color));
+
+                }
 
                 break;
             }
             case "Objetos": {
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.objlarge);
-                backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.object_color));
+
+                if(Build.VERSION.SDK_INT >= 23) {
+                    backgroundImage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.object_color));
+                }
+                else {
+                    backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.object_color));
+                }
 
                 break;
             }
             case "Pessoas": {
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.peolarge);
-                backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.people_color));
+
+                if(Build.VERSION.SDK_INT >= 23) {
+                    backgroundImage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.people_color));
+                }
+                else {
+                    backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.people_color));
+                }
                 break;
             }
             case "Formas de Expressão": {
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.expformlarge);
-                backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.expform_color));
+
+                if(Build.VERSION.SDK_INT >= 23) {
+                    backgroundImage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.expform_color));
+                }
+                else {
+                    backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.expform_color));
+
+                }
                 break;
             }
             default:
@@ -275,11 +315,11 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
 
         ShareDialog shareDialog;
         shareDialog = new ShareDialog(actReference);
-
+        //Trocando porta :80 (padrão) para :3333
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             Log.v("MainAdapter", "Can share...");
             ShareLinkContent content = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse("http://www.pamin.lavid.ufpb.br/registro/" + culturalRegister.getIdCulturalRegister()))
+                    .setContentUrl(Uri.parse("http://www.pamin.lavid.ufpb.br:3333/registro/" + culturalRegister.getIdCulturalRegister()))
                     .setContentTitle(culturalRegister.getTitle())
                     .setContentDescription(culturalRegister.getDescription())
 //                    .setImageUrl(culturalRegister.getPictureUri(getContext()))

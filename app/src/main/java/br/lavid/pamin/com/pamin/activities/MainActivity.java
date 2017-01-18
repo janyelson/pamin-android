@@ -474,7 +474,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-        Drawer.setDrawerListener(mDrawerToggle);
+        Drawer.addDrawerListener(mDrawerToggle); //Trocou de set para add
         mDrawerToggle.syncState();
     }
 
