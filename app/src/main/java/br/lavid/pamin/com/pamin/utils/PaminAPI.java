@@ -4,9 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -22,11 +27,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 import br.lavid.pamin.com.pamin.models.CloudnaryPicture;
 import br.lavid.pamin.com.pamin.models.CulturalRegister;
@@ -50,64 +56,33 @@ public class PaminAPI {
     public final static String API_SIGNUP = "/users";
     public final static String API_SIGNIN = "/auth/sign_in";
 
+    //private long final_id = 0;
+    private static long aux1 = 0;
+    //private static long aux2 = 0;
+
+    private static ReentrantLock lock = new ReentrantLock(true);
+    private static Condition WR = lock.newCondition();
+
     private RequestQueue mRequestQueue;
 
     /**
      * Convert Java Date to JSON format
      *
-     * @param date the Java Date
+     * @param calendar the Java Date
      * @return if not null, return the Date in Json Format, ex: 2014-11-30T00:00:00.000Z
      */
-    public static String convertDateToJsonDate(Date date, Calendar calendar) {
+    public static String convertDateToJsonDate(Calendar calendar) {
         try {
-            //Calendar cal = Calendar.getInstance();
-            //cal.setTime(date);
             String result = "";
             int month = calendar.get(Calendar.MONTH) + 1;
             result += calendar.get(Calendar.YEAR) + "-";
-            //result += Integer.toString(cal.get(Calendar.YEAR)) + "-";
             result += month + "-";
-            //result += Integer.toString(cal.get(Calendar.MONTH)) + "-";
             result += calendar.get(Calendar.DAY_OF_MONTH) + "T";
-            //result += Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "T";
-            result += date.getHours() + ":";
-            //result += Integer.toString(cal.get(Calendar.HOUR)) + ":";
-            result += date.getMinutes() + ":";
-            //result += Integer.toString(cal.get(Calendar.MINUTE)) + ":";
-            result += date.getSeconds() + ".000Z";
-            //result += Integer.toString(cal.get(Calendar.SECOND)) + ".000Z";
+            result += calendar.get(Calendar.HOUR) + ":";
+            result += calendar.get(Calendar.MINUTE) + ":";
+            result += calendar.get(Calendar.SECOND) + ".000Z";
 
-
-            //result = date.getDay() + "-" + date.getMonth() + "-" + date.getYear() + "";
-            Log.e("Pamin Data", result);
-            return result;
-        } catch (Exception error) {
-            return null;
-        }
-    }
-
-    public static String convertDateToJsonDate(Date date) {
-        try {
-            //Calendar cal = Calendar.getInstance();
-            //cal.setTime(date);
-            String result = "";
-
-            result += date.getYear() + "-";
-            //result += Integer.toString(cal.get(Calendar.YEAR)) + "-";
-            result += date.getMonth() + "-";
-            //result += Integer.toString(cal.get(Calendar.MONTH)) + "-";
-            result += date.getDay() + "T";
-            //result += Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "T";
-            result += date.getHours() + ":";
-            //result += Integer.toString(cal.get(Calendar.HOUR)) + ":";
-            result += date.getMinutes() + ":";
-            //result += Integer.toString(cal.get(Calendar.MINUTE)) + ":";
-            result += date.getSeconds() + ".000Z";
-            //result += Integer.toString(cal.get(Calendar.SECOND)) + ".000Z";
-
-
-            //result = date.getDay() + "-" + date.getMonth() + "-" + date.getYear() + "";
-            Log.e("Pamin Data", result);
+            //Log.e("Pamin Data", result);
             return result;
         } catch (Exception error) {
             return null;
@@ -129,7 +104,26 @@ public class PaminAPI {
             case "Objetos":
                 return 6;
             default:
-                return 2;
+                return 3;
+        }
+    }
+
+    public static String getCategoryName(int ID) {
+        switch (ID) {
+            case 1:
+                return "Pessoas";
+            case 2:
+                return "Lugares";
+            case 3:
+                return "Celebrações";
+            case 4:
+                return "Saberes";
+            case 5:
+                return "Formas de Expressão";
+            case 6:
+                return "Objetos";
+            default:
+                return "Celebrações";
         }
     }
 
@@ -138,80 +132,99 @@ public class PaminAPI {
      *
      * @param jsonCallback
      */
-    public void getAll(final GetAllCallback jsonCallback, Context ctx) {
+    public void getAll(final GetAllCallback jsonCallback, Context ctx) throws InterruptedException {
+        //lock.lock();
+        //if(aux1 == 1) {WR.await();}
+        //aux1 = 1;
+            Log.e("getAll pegando tudo ", "Vamos ver 222");
+            JsonArrayRequest jsObjRequest = new JsonArrayRequest(API_PAMIN + API_REGISTERS, new Response.Listener<JSONArray>() {
 
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(API_PAMIN + API_REGISTERS, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray jsonResponse) {
 
-            @Override
-            public void onResponse(JSONArray jsonResponse) {
+                    LinkedList<CulturalRegister> culturalRegisters = new LinkedList<>();
 
-                LinkedList<CulturalRegister> culturalRegisters = new LinkedList<>();
+                    try {
+                        for (int index = 0; index < jsonResponse.length(); index++) {
+                            JSONObject jsonObject = jsonResponse.getJSONObject(index);
 
-                try {
-                    for (int index = 0; index < jsonResponse.length(); index++) {
-                        JSONObject jsonObject = jsonResponse.getJSONObject(index);
+                            long idCulturalRegister;
+                            String title, description, promotor, promotor_contact, category, where;
+                            double latitude, longitude, price;
+                            Calendar startDate = Calendar.getInstance();
+                            Calendar endDate = Calendar.getInstance();
 
-                        long idCulturalRegister;
-                        String title, description, promotor, promotor_contact, category, where;
-                        double latitude, longitude, price;
-                        Date startDate, endDate;
+                            idCulturalRegister = jsonObject.getLong("id");
+                            title = jsonObject.getString("what");
+                            description = jsonObject.getString("description");
+                            promotor = jsonObject.getString("promotor");
+                            promotor_contact = jsonObject.getString("promotor_contact");
+                            latitude = jsonObject.getDouble("latitude");
+                            longitude = jsonObject.getDouble("longitude");
+                            //category = jsonObject.getJSONObject("category").getString("name");
+                            category = getCategoryName(jsonObject.getJSONObject("category").getInt("id"));
+                            where = jsonObject.getString("where");
+                            if (!jsonObject.isNull("price"))
+                                price = jsonObject.getDouble("price");
+                            else
+                                price = -1.0d;
 
-                        idCulturalRegister = jsonObject.getLong("id");
-                        title = jsonObject.getString("what");
-                        description = jsonObject.getString("description");
-                        promotor = jsonObject.getString("promotor");
-                        promotor_contact = jsonObject.getString("promotor_contact");
-                        latitude = jsonObject.getDouble("latitude");
-                        longitude = jsonObject.getDouble("longitude");
-                        category = jsonObject.getJSONObject("category").getString("name");
-                        where = jsonObject.getString("where");
-                        if (!jsonObject.isNull("price"))
-                            price = jsonObject.getDouble("price");
-                        else
-                            price = -1.0d;
+                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
 
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                            if (!jsonObject.getString("start_date").equals("null"))
+                                startDate.setTime(df.parse(jsonObject.getString("start_date")));
+                            else
+                                startDate = null;
+                            if (!jsonObject.getString("end_date").equals("null"))
+                                endDate.setTime(df.parse(jsonObject.getString("end_date")));
+                            else
+                                endDate = null;
 
-                        if (!jsonObject.getString("start_date").equals("null"))
-                            startDate = df.parse(jsonObject.getString("start_date"));
-                        else
-                            startDate = null;
-                        if (!jsonObject.getString("end_date").equals("null"))
-                            endDate = df.parse(jsonObject.getString("end_date"));
-                        else
-                            endDate = null;
+                            CulturalRegister culturalRegister = new CulturalRegister(idCulturalRegister,
+                                    promotor, promotor_contact, title, description,
+                                    null, startDate, endDate, price, latitude, longitude, category, where);
 
-                        CulturalRegister culturalRegister = new CulturalRegister(idCulturalRegister,
-                                promotor, promotor_contact, title, description,
-                                null, startDate, endDate, price, latitude, longitude, category, where);
+                            //for (int i = 0; i < jsonObject.getJSONArray("pictures").toString().length(); i++) {
+                            //    if (jsonObject.getJSONArray("pictures").get(i).toString().endsWith(".jpg") ||
+                            //            jsonObject.getJSONArray("pictures").get(i).toString().endsWith(".jpeg") ||
+                            //            jsonObject.getJSONArray("pictures").get(i).toString().endsWith(".png") ||
+                            //            jsonObject.getJSONArray("pictures").get(i).toString().endsWith(".webm"))
+                            //          culturalRegister.addPicture(new CloudnaryPicture(jsonObject.getJSONArray("pictures").get(i).toString()));
+                            //}
+                            if (jsonObject.getString("pictures").endsWith(".jpg") || jsonObject.getString("pictures").endsWith(".jpeg") || jsonObject.getString("pictures").endsWith(".png") || jsonObject.getString("pictures").endsWith(".webp")) {
+                                culturalRegister.addPicture(new CloudnaryPicture(jsonObject.getString("pictures")));
+                            }
 
-//                    for (int i = 0; i < jsonObject.getJSONArray("pictures_videos").length(); i++) {
-//                        if (jsonObject.getJSONArray("pictures_videos").get(i).toString().endsWith(".jpg") ||
-//                                jsonObject.getJSONArray("pictures_videos").get(i).toString().endsWith(".jpeg") ||
-//                                jsonObject.getJSONArray("pictures_videos").get(i).toString().endsWith(".png") ||
-//                                jsonObject.getJSONArray("pictures_videos").get(i).toString().endsWith(".webm"))
-//                            culturalRegister.addPicture(new CloudnaryPicture(jsonObject.getJSONArray("pictures_videos").get(i).toString()));
-//                    }
+                            //if(final_id < idCulturalRegister) {
+                            culturalRegisters.add(culturalRegister);
+                            //    final_id = idCulturalRegister;
+                            //}
+                        }
+                        jsonCallback.JsonReturn(culturalRegisters);
+                        //aux1 = 0;
+                        //if(lock.hasWaiters(WR)) {
+                        //    WR.signal();
+                        //}
+                        //WR.signal();
+                        //lock.unlock();
 
-                        culturalRegisters.add(culturalRegister);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    jsonCallback.JsonReturn(culturalRegisters);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
 
-            }
-        });
+                }
+            });
 
-        if (mRequestQueue == null)
-            mRequestQueue = Volley.newRequestQueue(ctx);
-        mRequestQueue.add(jsObjRequest);
+            if (mRequestQueue == null)
+                mRequestQueue = Volley.newRequestQueue(ctx);
+            //jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(50000000, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            mRequestQueue.add(jsObjRequest);
+
     }
 
     /**
@@ -220,85 +233,28 @@ public class PaminAPI {
      * @param json         json with the culturalregister
      * @param sendCallback The callback that will call when the server response
      */
-    public void sendNewCultRegister(final User user, JSONObject json, Context ctx, final SendRegisterCallback sendCallback) {
+    public void sendNewCultRegister(final User user,final JSONObject json, Context ctx, final SendRegisterCallback sendCallback) {
 
         Log.v("PaminAPI", json.toString());
-        String urlRegisters = API_PAMIN + API_REGISTERS;
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, urlRegisters, json, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.v("PaminAPI", response.toString());
-                sendResponse(response, sendCallback);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("PaminAPI", "ERROR: " + error.toString());
-                sendResponse(null, sendCallback);
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
 
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("Content-Type", "application/json");
-                map.put("X-User-Email", user.getEmail());
-                map.put("X-User-Token", user.getToken());
-
-                return map;
-            }
-        };
-
-
-        RequestQueue requestQueue = Volley.newRequestQueue(ctx);
-
-
-        requestQueue.add(jsonRequest);
-
-
-        /*
         try {
             JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, API_PAMIN + API_REGISTERS, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    Log.v("PaminAPI", jsonObject.toString());
+                    Log.v("PaminAPIonResponse", jsonObject.toString());
                     sendResponse(jsonObject, sendCallback);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     Log.e("PaminAPI", "ERROR: " + volleyError.getCause());
-                    //volleyError.printStackTrace();
-                    //Log.e("PaminAPI", "TimeoutError: " + (volleyError instanceof TimeoutError));
-                    //Log.e("PaminAPI", "NoConnectionError: " + (volleyError instanceof NoConnectionError));
-                    //Log.e("PaminAPI", "NetWorkError: " + (volleyError instanceof NetworkError));
-                    //Log.e("PaminAPI", "AuthFailureError: " + (volleyError instanceof AuthFailureError));
-                    //Log.e("PaminAPI", "ServerError: " + (volleyError instanceof ServerError));
-                    //Log.e("PaminAPI", "ParseError: " + (volleyError instanceof ParseError));
-                    //Log.e("PaminAPI", "NullPointerException: " + (volleyError.getCause() instanceof NullPointerException));
-
-                    if (volleyError.networkResponse != null) {
-                        // 401 => login again
-                        Log.e("PaminAPI", String.valueOf(volleyError.networkResponse.statusCode));
-
-                        if (volleyError.networkResponse.data != null) {
-                            // most likely JSONString
-                            //Log.e("PaminAPI", new String(volleyError.networkResponse.data, StandardCharsets.UTF_8));
-
-                        }
-                    }
-                    else if (volleyError.getMessage() == null) {
-                        Log.e("PaminAPI", "e.getMessage");
-                        Log.e("PaminAPI", "" + volleyError.getMessage());
-
-                    }
-                    else if (volleyError.getCause() != null) {
-                        Log.e("PaminAPI", "e.getCause");
-                        Log.e("PaminAPI", "" + volleyError.getCause().getMessage());
-
-                    }
-
-
+                    Log.e("PaminAPI", "TimeoutError: " + (volleyError instanceof TimeoutError));
+                    Log.e("PaminAPI", "NoConnectionError: " + (volleyError instanceof NoConnectionError));
+                    Log.e("PaminAPI", "NetWorkError: " + (volleyError instanceof NetworkError));
+                    Log.e("PaminAPI", "AuthFailureError: " + (volleyError instanceof AuthFailureError));
+                    Log.e("PaminAPI", "ServerError: " + (volleyError instanceof ServerError));
+                    Log.e("PaminAPI", "ParseError: " + (volleyError instanceof ParseError));
+                    Log.e("PaminAPI", "NullPointerException: " + (volleyError.getCause() instanceof NullPointerException));
                     sendResponse(null, sendCallback);
                 }
             }) {
@@ -320,7 +276,7 @@ public class PaminAPI {
             Log.e("PAMINAPI", error.getMessage());
         }
 
-        */
+
     }
 
     private void sendResponse(JSONObject response, SendRegisterCallback callback) {
@@ -339,7 +295,9 @@ public class PaminAPI {
             long idCulturalRegister;
             String title, description, promotor, promotor_contact, category, where;
             double latitude, longitude, price;
-            Date startDate, endDate;
+            //Date startDate, endDate;
+            Calendar startDate = Calendar.getInstance();
+            Calendar endDate = Calendar.getInstance();
 
             idCulturalRegister = jsonResponse.getLong("id");
             title = jsonResponse.getString("what");
@@ -348,7 +306,8 @@ public class PaminAPI {
             promotor_contact = jsonResponse.getString("promotor_contact");
             latitude = jsonResponse.getDouble("latitude");
             longitude = jsonResponse.getDouble("longitude");
-            category = jsonResponse.getJSONObject("category").getString("name");
+            //category = jsonResponse.getJSONObject("category").getString("name");
+            category = getCategoryName(jsonResponse.getJSONObject("category").getInt("id"));
             where = jsonResponse.getString("where");
             if (!jsonResponse.isNull("price"))
                 price = jsonResponse.getDouble("price");
@@ -358,11 +317,11 @@ public class PaminAPI {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
 
             if (!jsonResponse.getString("start_date").equals("null"))
-                startDate = df.parse(jsonResponse.getString("start_date"));
+                startDate.setTime(df.parse(jsonResponse.getString("start_date")));
             else
                 startDate = null;
             if (!jsonResponse.getString("end_date").equals("null"))
-                endDate = df.parse(jsonResponse.getString("end_date"));
+                endDate.setTime(df.parse(jsonResponse.getString("end_date")));
             else
                 endDate = null;
 
@@ -370,21 +329,21 @@ public class PaminAPI {
                     promotor, promotor_contact, title, description,
                     null, startDate, endDate, price, latitude, longitude, category, where);
 
-            for (int i = 0; i < jsonResponse.getJSONArray("pictures").length(); i++) {
-                if (jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".jpg") ||
-                        jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".jpeg") ||
-                        jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".png") ||
-                        jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".webm"))
-                    culturalRegister.addPicture(new CloudnaryPicture(jsonResponse.getJSONArray("pictures").get(i).toString()));
-            }
-            /*
+            //for (int i = 0; i < jsonResponse.getJSONArray("pictures").length(); i++) {
+            //    if (jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".jpg") ||
+            //            jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".jpeg") ||
+            //            jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".png") ||
+            //            jsonResponse.getJSONArray("pictures").get(i).toString().endsWith(".webm"))
+            //        culturalRegister.addPicture(new CloudnaryPicture(jsonResponse.getJSONArray("pictures").get(i).toString()));
+            //}
+
             //Passando de Array para string - Apenas uma imagem
             if (jsonResponse.getString("pictures").endsWith(".jpg") ||
                     jsonResponse.getString("pictures").endsWith(".jpeg") ||
                     jsonResponse.getString("pictures").endsWith(".png") ||
-                    jsonResponse.getString("pictures").endsWith(".webm"))
+                    jsonResponse.getString("pictures").endsWith(".webp"))
                 culturalRegister.addPicture(new CloudnaryPicture(jsonResponse.getString("pictures")));
-            */
+
             callback.registerCallback(true, culturalRegister);
 
         } catch (Exception e) {
@@ -415,10 +374,11 @@ public class PaminAPI {
             json.put("longitude", cultReg.getLongitude());
             json.put("what", getCategoryID(cultReg.getCategory()));
             json.put("description", cultReg.getDescription());
-
+            //String picsVidsJson = null;
             JSONArray picsVidsJson = new JSONArray();
             for (CloudnaryPicture cloudPic : cultReg.getPictures()) {
                 picsVidsJson.put(cloudPic.getCompleteUrl());
+                //picsVidsJson = cloudPic.getCompleteUrl();
             }
 
             json.put("pictures", picsVidsJson);

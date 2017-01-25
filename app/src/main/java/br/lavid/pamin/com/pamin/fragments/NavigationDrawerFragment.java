@@ -189,7 +189,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         mDrawerToggle.setHomeAsUpIndicator(getResources().getDrawable(R.mipmap.ic_launcher));
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     private void selectItem(int position) {

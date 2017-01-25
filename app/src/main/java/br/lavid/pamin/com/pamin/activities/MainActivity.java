@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
     private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS= 102;
     private static final int MY_PERMISSIONS_REQUEST_INTERNET= 103;
+    private static final int MY_PERMISSIONS_REQUEST_TO_READ_EXTERNAL_STORAGE = 104;
 
     public static LinkedList<CulturalRegister> actCulturalRegisters;
 
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             int count = 0;
             verifyPermission();
             while (true) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     break;
                 }
                 if(auxPermission == -1) {
@@ -201,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setCategory(String name) {
         mainListFragment.setCategory(name);
+        mainMapFragment.setCategory(name);
+        Log.e("setCategory is here", "So testando mesmo");
         Drawer.closeDrawers();
     }
 
@@ -558,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void verifyPermission() {
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -600,6 +603,17 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.INTERNET},
                         MY_PERMISSIONS_REQUEST_INTERNET);
             }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_TO_READ_EXTERNAL_STORAGE);
+            }
         }
     }
 
@@ -607,6 +621,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
+
             case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -638,6 +653,17 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             case MY_PERMISSIONS_REQUEST_INTERNET: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+                } else {
+                    auxPermission = -1;
+                }
+                return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_TO_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 

@@ -254,14 +254,16 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
             }
             default:
                 backgroundPic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.celeblarge);
+
+
         }
 
         backgroundImage.setImageBitmap(backgroundPic);
-        if (!culturalRegister.getPictures().isEmpty() && culturalRegister.getPictures().get(0) != null && culturalRegister.getDevicePictures(0, getContext()) == null) {
-            ImageRequest ir = new ImageRequest(culturalRegister.getPictures().get(0).getCompleteUrl(), new Response.Listener<Bitmap>() {
+        if (!culturalRegister.getPictures().isEmpty() && culturalRegister.getPictures().get(0) != null && culturalRegister.getDevicePictures((int) culturalRegister.getIdCulturalRegister(), getContext()) == null) {
+            ImageRequest ir = new ImageRequest(culturalRegister.getPictures().getLast().getCompleteUrl(), new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap bitmap) {
-                    culturalRegister.setDevicePictures(bitmap, 0, getContext());
+                    culturalRegister.setDevicePictures(bitmap,(int) culturalRegister.getIdCulturalRegister(), getContext());
                 }
             }, 300, 300, null,
                     new Response.ErrorListener() {
@@ -278,11 +280,11 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
     }
 
     public void devicePic(ImageView image, ImageView backgroundImage, CulturalRegister culturalRegister, Bitmap backgroundPic) {
-        if (culturalRegister.getDevicePictures(0, getContext()) != null) {
+        if (culturalRegister.getDevicePictures((int) culturalRegister.getIdCulturalRegister(), getContext()) != null) {
             Log.v("MainAdapter", "Picture " + culturalRegister.getTitle() + " found");
             backgroundImage.setBackground(
                     new BitmapDrawable(getContext().getResources(),
-                            culturalRegister.getDevicePictures(0, getContext())));
+                            culturalRegister.getDevicePictures((int) culturalRegister.getIdCulturalRegister(), getContext())));
             backgroundImage.setImageBitmap(null);
         }
 //        else {
@@ -322,7 +324,7 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
                     .setContentUrl(Uri.parse("http://www.pamin.lavid.ufpb.br:3333/registro/" + culturalRegister.getIdCulturalRegister()))
                     .setContentTitle(culturalRegister.getTitle())
                     .setContentDescription(culturalRegister.getDescription())
-//                    .setImageUrl(culturalRegister.getPictureUri(getContext()))
+                    //.setImageUrl(culturalRegister.getPictureUri(getContext()))
                     .build();
 
             MainActivity.callbackManager = CallbackManager.Factory.create();
@@ -423,7 +425,7 @@ public class MainListAdapter extends ArrayAdapter<CulturalRegister> implements G
     @Override
     public void pictureComplete(CulturalRegister culturalRegister, Bitmap bitmap, int number) {
         Log.d("MainAdapter", "Saving Picture...");
-        culturalRegister.setDevicePictures(bitmap, 0, getContext());
+        culturalRegister.setDevicePictures(bitmap, (int) culturalRegister.getIdCulturalRegister(), getContext());
         notifyDataSetChanged();
     }
 }

@@ -33,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private AppCompatEditText emailField, passField;
     private ProgressDialog loading;
 
+    private int aux = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,24 +71,29 @@ public class LoginActivity extends AppCompatActivity {
                     .show();
             return;
         }
-
         loading.show();
-        user.loginUser(emailField.getText().toString(), passField.getText().toString(), new User.CompleteCallback() {
-            @Override
-            public void completeCallback(boolean successful) {
-                if (successful)
-                {
-                    //loading.dismiss();
-                    //Toast.makeText(getApplicationContext(), "OK!!!", Toast.LENGTH_SHORT).show();
-                    goToMain();
-                } else {
-                    //loading.dismiss();
-                    Toast.makeText(getApplicationContext(), "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show();
+        try {
+            user.loginUser(emailField.getText().toString(), passField.getText().toString(), new User.CompleteCallback() {
+                @Override
+                public void completeCallback(boolean successful) {
+                    if (successful) {
+                        Toast.makeText(getApplicationContext(), "OK!!!", Toast.LENGTH_SHORT).show();
+                        goToMain();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show();
+                    }
+                    loading.dismiss();
                 }
-                loading.dismiss();
-            }
-        });
-
+            });
+        }catch(Exception ex) {
+            loading.dismiss();
+            Toast.makeText(getApplicationContext(), "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show();
+        }
+        //if(user.aux == 0) {
+        //    loading.dismiss();
+        //    Toast.makeText(getApplicationContext(), "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show();
+            //user.aux = 1;
+        //}
     }
 
     private String getSmartphoneEmail() {
@@ -121,8 +128,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REGISTER_RETURN && resultCode == RESULT_OK && user.hasUser()) {
-            emailField.setText(data.getStringExtra("email"));
-            passField.setText(data.getStringExtra("pass"));
+            emailField.setText(data.getStringExtra("user_email"));
+            passField.setText(data.getStringExtra("user_pass"));
 
             Log.v("LoginAct", "EMAIL: " + User.getInstance(this).getEmail());
             Log.v("LoginAct", "TOKEN: " + User.getInstance(this).getToken());

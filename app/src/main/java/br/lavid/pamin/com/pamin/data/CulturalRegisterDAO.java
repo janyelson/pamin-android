@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.LinkedList;
 
 import br.lavid.pamin.com.pamin.data.PaminDataContract.CulturalRegisterEntry;
@@ -20,6 +20,7 @@ public class CulturalRegisterDAO {
 
     public static String strSeparator = "__,__";
     private PaminDbHelper paminDbHelper;
+    private final Object lock = new Object();
 
     public CulturalRegisterDAO(Context ctx) {
         paminDbHelper = new PaminDbHelper(ctx);
@@ -59,7 +60,12 @@ public class CulturalRegisterDAO {
                 null
         );
 
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+
         if (c.moveToFirst()) {
+            startDate.setTimeInMillis(c.getLong(5));
+            endDate.setTimeInMillis(c.getLong(6));
 
             CulturalRegister cultReg = new CulturalRegister(
                     c.getInt(0),
@@ -68,8 +74,8 @@ public class CulturalRegisterDAO {
                     c.getString(3),
                     c.getString(4),
                     null,
-                    new Date(c.getLong(5)),
-                    new Date(c.getLong(6)),
+                    startDate,
+                    endDate,
                     c.getDouble(7),
                     c.getDouble(8),
                     c.getDouble(9),
@@ -94,9 +100,9 @@ public class CulturalRegisterDAO {
         values.put(CulturalRegisterEntry.COLUMN_NAME_WHERE, cult_reg.getWhere());
 
         if (cult_reg.getStartDate() != null)
-            values.put(CulturalRegisterEntry.COLUMN_NAME_START_DATE, cult_reg.getStartDate().getTime());
+            values.put(CulturalRegisterEntry.COLUMN_NAME_START_DATE, cult_reg.getStartDate().getTimeInMillis());
         if (cult_reg.getEndDate() != null)
-            values.put(CulturalRegisterEntry.COLUMN_NAME_END_DATE, cult_reg.getEndDate().getTime());
+            values.put(CulturalRegisterEntry.COLUMN_NAME_END_DATE, cult_reg.getEndDate().getTimeInMillis());
 
         values.put(CulturalRegisterEntry.COLUMN_NAME_CATEGORY, cult_reg.getCategory());
         values.put(CulturalRegisterEntry.COLUMN_NAME_PROMOTER, cult_reg.getPromoter());
@@ -105,17 +111,31 @@ public class CulturalRegisterDAO {
         values.put(CulturalRegisterEntry.COLUMN_NAME_LONGITUDE, cult_reg.getLongitude());
         values.put(CulturalRegisterEntry.COLUMN_NAME_PRICE, cult_reg.getPrice());
 
-        String[] picturesAndVids = new String[cult_reg.getPictures().size()];
-        int i = 0;
-        for (CloudnaryPicture cp : cult_reg.getPictures()) {
-            if (cp.getCompleteUrl() == null || cp.getCompleteUrl().isEmpty())
-                continue;
-            else
-                Log.v("CrDAO", "Saving picORvid" + i + ": " + cp.getCompleteUrl());
-            picturesAndVids[i] = cp.getCompleteUrl();
-            i++;
+        //String[] picturesAndVids = new String[cult_reg.getPictures().size()];
+        String picturesAndVids = "";
+        //int i = 0;
+        //for (CloudnaryPicture cp : cult_reg.getPictures()) {
+        CloudnaryPicture cp = null;
+
+        if(cult_reg.getPictures() != null && cult_reg.getPictures().isEmpty()) {
+            try {
+                synchronized (lock) {
+                    cp = cult_reg.getPictures().getFirst();
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        values.put(CulturalRegisterEntry.COLUMN_NAME_PICs_VIDs, convertArrayToString(picturesAndVids));
+        if (cp == null || cp.getCompleteUrl() == null || cp.getCompleteUrl().isEmpty()){}
+                //continue;
+        else {
+            Log.v("CrDAO", "Saving picORvid" + ": " + cp.getCompleteUrl());
+            //Log.v("CrDAO", "Saving picORvid" + i + ": " + cp.getCompleteUrl());
+            picturesAndVids = cp.getCompleteUrl();
+        }
+            //i++;
+        //)
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PICs_VIDs, picturesAndVids);//Array para string
 
         long result = db.update(CulturalRegisterEntry.TABLE_NAME, values, CulturalRegisterEntry.COLUMN_NAME_ID + "='" + cult_reg.getIdCulturalRegister() + "'", null);
         db.close();
@@ -135,6 +155,8 @@ public class CulturalRegisterDAO {
     public long save(CulturalRegister cult_reg) {
         SQLiteDatabase db = paminDbHelper.getWritableDatabase();
 
+        Log.e("Error", "Eroror  11111"  );
+
         ContentValues values = new ContentValues();
         values.put(CulturalRegisterEntry.COLUMN_NAME_ID, cult_reg.getIdCulturalRegister());
         values.put(CulturalRegisterEntry.COLUMN_NAME_TITLE, cult_reg.getTitle());
@@ -142,9 +164,9 @@ public class CulturalRegisterDAO {
         values.put(CulturalRegisterEntry.COLUMN_NAME_WHERE, cult_reg.getWhere());
 
         if (cult_reg.getStartDate() != null)
-            values.put(CulturalRegisterEntry.COLUMN_NAME_START_DATE, cult_reg.getStartDate().getTime());
+            values.put(CulturalRegisterEntry.COLUMN_NAME_START_DATE, cult_reg.getStartDate().getTimeInMillis());
         if (cult_reg.getEndDate() != null)
-            values.put(CulturalRegisterEntry.COLUMN_NAME_END_DATE, cult_reg.getEndDate().getTime());
+            values.put(CulturalRegisterEntry.COLUMN_NAME_END_DATE, cult_reg.getEndDate().getTimeInMillis());
 
         values.put(CulturalRegisterEntry.COLUMN_NAME_CATEGORY, cult_reg.getCategory());
         values.put(CulturalRegisterEntry.COLUMN_NAME_PROMOTER, cult_reg.getPromoter());
@@ -153,17 +175,33 @@ public class CulturalRegisterDAO {
         values.put(CulturalRegisterEntry.COLUMN_NAME_LONGITUDE, cult_reg.getLongitude());
         values.put(CulturalRegisterEntry.COLUMN_NAME_PRICE, cult_reg.getPrice());
 
-        String[] picturesAndVids = new String[cult_reg.getPictures().size()];
+        //String[] picturesAndVids = new String[cult_reg.getPictures().size()];
+        String picturesAndVids = "";
         int i = 0;
-        for (CloudnaryPicture cp : cult_reg.getPictures()) {
-            if (cp.getCompleteUrl() == null || cp.getCompleteUrl().isEmpty())
-                continue;
-            else
-                Log.v("CrDAO", "Saving picORvid" + i + ": " + cp.getCompleteUrl());
-            picturesAndVids[i] = cp.getCompleteUrl();
-            i++;
-        }
-        values.put(CulturalRegisterEntry.COLUMN_NAME_PICs_VIDs, convertArrayToString(picturesAndVids));
+        //for (CloudnaryPicture cp : cult_reg.getPictures()) {
+            Log.e("Error", "Eroror");
+            CloudnaryPicture cp = null;
+        Log.e("Error", "ErororINICIO");
+            if(cult_reg.getPictures() != null && !cult_reg.getPictures().isEmpty()) {
+                Log.e("Error", "ErororMEIO");
+                try {
+                    synchronized (lock) {
+                        cp = cult_reg.getPictures().getFirst();
+                    }
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+                Log.e("Error", "ErororFIM");
+            }
+            Log.e("Error", "Eroror 22222");
+            if (cp == null || cp.getCompleteUrl() == null || cp.getCompleteUrl().isEmpty()){}//continue;
+            else {Log.v("CrDAO", "Saving picORvid" + i + ": " + cp.getCompleteUrl()); picturesAndVids = cp.getCompleteUrl();}
+
+            //i++;
+        //}
+        //convertArrayToString
+        values.put(CulturalRegisterEntry.COLUMN_NAME_PICs_VIDs, picturesAndVids); //Array para string
+        Log.e("Error", "Eroror  33333");
 
         long result = db.insert(CulturalRegisterEntry.TABLE_NAME, null, values);
         db.close();
@@ -179,8 +217,15 @@ public class CulturalRegisterDAO {
         Log.v("Reading", "Elements in DB: " + c.getCount());
 
         LinkedList<CulturalRegister> culturalRegisters = new LinkedList<CulturalRegister>();
+
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+
+
         if (c.moveToFirst()) {
             do {
+                startDate.setTimeInMillis(c.getLong(5));
+                endDate.setTimeInMillis(c.getLong(6));
                 CulturalRegister cultReg = new CulturalRegister(
                         c.getInt(0),
                         c.getString(1),
@@ -188,8 +233,8 @@ public class CulturalRegisterDAO {
                         c.getString(3),
                         c.getString(4),
                         null,
-                        new Date(c.getLong(5)),
-                        new Date(c.getLong(6)),
+                        startDate,
+                        endDate,
                         c.getDouble(7),
                         c.getDouble(8),
                         c.getDouble(9),
@@ -197,13 +242,17 @@ public class CulturalRegisterDAO {
                         c.getString(11)
                 );
 
-                String[] picsVids = convertStringToArray(c.getString(12));
-                for (String picORvid : picsVids) {
-                    if (picORvid == null || picORvid.isEmpty())
-                        continue;
-                    Log.v("CrDAO", "Loading picORvid: " + picORvid);
-                    cultReg.addPicture(new CloudnaryPicture(picORvid));
-                }
+                //String[] picsVids = convertStringToArray(c.getString(12));
+                String picORvid = c.getString(12);
+
+                //for (String picORvid : picsVids) {
+                    if (picORvid == null || picORvid.isEmpty() || picORvid == ""){}//continue
+                    else {
+                        Log.v("CrDAO", "Loading picORvid: " + picORvid);
+                        cultReg.addPicture(new CloudnaryPicture(picORvid));
+                    }
+
+                //}
                 culturalRegisters.add(cultReg);
 
             } while (c.moveToNext());
