@@ -1,6 +1,8 @@
 package br.lavid.pamin.com.pamin.activities;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,11 +14,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +55,7 @@ import br.lavid.pamin.com.pamin.models.CulturalRegister;
 import br.lavid.pamin.com.pamin.models.User;
 import br.lavid.pamin.com.pamin.sync.SyncPamimData;
 import br.lavid.pamin.com.pamin.utils.InternetFeatures;
+import br.lavid.pamin.com.pamin.utils.MaterialFeatures;
 import br.lavid.pamin.com.pamin.utils.TabletFeatures;
 
 /**
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
     private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS= 102;
     private static final int MY_PERMISSIONS_REQUEST_INTERNET= 103;
+    private static final int MY_PERMISSIONS_REQUEST_TO_READ_EXTERNAL_STORAGE = 104;
 
     public static LinkedList<CulturalRegister> actCulturalRegisters;
 
@@ -78,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     //ACTIVITY
     private Toolbar toolbar;
+    private SearchView searchbar;
     private FloatingActionsMenu fab;
     private ViewPager pager;
     private PagerSlidingTabStrip tabs;
@@ -95,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
     //AUX
     private int auxPermission = 0;
+
+    //SearchView
+    private SearchView searchView = null;
+    private SearchView.OnQueryTextListener queryTextListener;
+    private SearchView.OnCloseListener closeListener;
 
 
     /**
@@ -119,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         if (Build.VERSION.SDK_INT >= 23) {
-            int count = 0;
+            //int count = 0;
             verifyPermission();
             while (true) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     break;
                 }
                 if(auxPermission == -1) {
@@ -201,7 +213,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setCategory(String name) {
         mainListFragment.setCategory(name);
+        mainMapFragment.setCategory(name);
         Drawer.closeDrawers();
+    }
+
+    public void searchEvent(String name) {
+        mainListFragment.searchEvents(name);
+        mainMapFragment.searchEvents(name);
     }
 
     private void initFloatingButton() {
@@ -411,6 +429,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initBaseActivity() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        searchbar = (SearchView) findViewById(R.id.search_bar);
         setSupportActionBar(toolbar);
     }
 
@@ -481,6 +500,66 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main_menu2, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Log.i("onQueryTextChange", newText);
+
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    MaterialFeatures.hideKeyboard(MainActivity.this);
+                    Log.i("onQueryTextSubmit", query);
+                    searchEvent(query);
+                    //Intent intent = new Intent(MainActivity.this, SearchActivity.class );
+                    //intent.putExtra("event", query);
+                    //startActivity(intent);
+                    return true;
+                }
+            };
+
+            closeListener = new SearchView.OnCloseListener() {
+
+                @Override
+                public boolean onClose() {
+                    Log.i("onClose", "Tudo, errou");
+                    searchEvent("Tudo");
+                    return false;
+                }
+            };
+
+            MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    // Do something when collapsed
+                    Log.i("onMenuITENSCollapse", "Tudo, errou");
+                    searchEvent("Tudo");
+                    return true;  // Return true to collapse action view
+                }
+
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    // Do something when expanded
+                    return true;  // Return true to expand action view
+                }
+            });
+
+            searchView.setOnCloseListener(closeListener);
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -495,6 +574,11 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(new Intent(this, ReportProblemActivity.class), REQUEST_REPORT);
             return true;
         }
+        if (id == R.id.action_search) {
+
+        }
+
+        //searchView.setOnQueryTextListener(queryTextListener);
 
         return super.onOptionsItemSelected(item);
     }
@@ -558,7 +642,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void verifyPermission() {
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -600,6 +684,17 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.INTERNET},
                         MY_PERMISSIONS_REQUEST_INTERNET);
             }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_TO_READ_EXTERNAL_STORAGE);
+            }
         }
     }
 
@@ -607,6 +702,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
+
             case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -638,6 +734,17 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             case MY_PERMISSIONS_REQUEST_INTERNET: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+                } else {
+                    auxPermission = -1;
+                }
+                return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_TO_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 

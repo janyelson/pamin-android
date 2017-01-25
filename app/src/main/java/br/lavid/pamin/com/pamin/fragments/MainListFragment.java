@@ -57,6 +57,10 @@ public class MainListFragment extends android.support.v4.app.Fragment {
     public void setCategory(String name) {
         mainListAdapter.setCategory(name);
     }
+    public void searchEvents(String name) {
+
+        mainListAdapter.searchEvents(name);
+    }
 
     /**
      * Update the list, called on MainActivity

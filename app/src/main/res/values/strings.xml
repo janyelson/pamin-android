@@ -211,5 +211,8 @@ v(C) DA PRESTAÇÃO OU TRANSMISSÃO DOS SERVIÇOS, INFORMAÇÃO, DADOS, ARQUIVOS
     </string>
     <string name="culturalRegisterAct_NewPhoto">Nova Foto</string>
     <string name="title_activity_report_problem">Reporte algum problema/sugestão</string>
+    <string name="search_event">Search Event</string>
+    <string name="search">Search</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

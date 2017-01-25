@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import br.lavid.pamin.com.pamin.R;
@@ -143,7 +144,7 @@ public class CulturalRegisterActivity extends AppCompatActivity {
 
         for (CloudnaryPicture cp : culturalRegister.getPictures()) {
             Log.v("CultRegAct", "Picture " + cp.getCompleteUrl() + ", loading...");
-            cp.loadPicture(getApplication(), cloudnaryInstance, new CloudnaryPicture.PictureDownloadCallback() {
+            cp.loadPicture(getApplication(), cloudnaryInstance, cp.getCompleteUrl(), new CloudnaryPicture.PictureDownloadCallback() {
                 @Override
                 public void pictureComplete(final Bitmap downloadPicture, String url) {
                     Log.v("CultRegAct", "Load complete");
@@ -164,25 +165,25 @@ public class CulturalRegisterActivity extends AppCompatActivity {
             iv++;
         }
 
-//        for (int i = 0; i <= 4; i++) {
-//            if (iv == i)
-//                continue;
-//            galleryImage[i] = (ImageView) inflater.inflate(R.layout.gallery_image, null);
-//            galleryImage[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
-//            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(600, 600);
-//            galleryImage[i].setLayoutParams(parms);
-//            galleryImage[i].setVisibility(View.GONE);
-//            gallery.addView(galleryImage[i]);
-//
-//            if (culturalRegister.getDevicePictures(i, this) != null) {
-//                if (galleryImage[i].getDrawable() == null) {
-//                    galleryImage[i].setImageBitmap(culturalRegister.getDevicePictures(i, this));
-//                    galleryImage[i].setVisibility(View.VISIBLE);
-//                }
-//            }
-//
-//        }
-//
+        for (int i = 1; i <= 4; i++) {
+            if (iv == i)
+                continue;
+            galleryImage[i] = (ImageView) inflater.inflate(R.layout.gallery_image, null);
+            galleryImage[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(600, 600);
+            galleryImage[i].setLayoutParams(parms);
+            galleryImage[i].setVisibility(View.GONE);
+            gallery.addView(galleryImage[i]);
+
+            if (culturalRegister.getDevicePictures(i, this) != null) {
+                if (galleryImage[i].getDrawable() == null) {
+                    galleryImage[i].setImageBitmap(culturalRegister.getDevicePictures(i, this));
+                    galleryImage[i].setVisibility(View.VISIBLE);
+                }
+            }
+
+        }
+
 //        gapi.getCity(culturalRegister, new GoogleAPI.SearchCityCallback() {
 //            @Override
 //            public void cityComplete(CulturalRegister culturalRegister, String city) {
@@ -362,14 +363,14 @@ public class CulturalRegisterActivity extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         TextView startDate = (TextView) findViewById(R.id.culturalRegister_startDate_field);
-        if (culturalRegister.getStartDate() == null || culturalRegister.getStartDate().getYear() <= 1970) {
+        if (culturalRegister.getStartDate() == null || culturalRegister.getStartDate().get(Calendar.YEAR) <= 1970) {
             startDate.setVisibility(View.GONE);
-        } else startDate.setText(df.format(culturalRegister.getStartDate()));
+        } else startDate.setText(df.format(culturalRegister.getStartDate().getTime()));
 
         TextView endDate = (TextView) findViewById(R.id.culturalRegister_endDateField);
-        if (culturalRegister.getEndDate() == null || culturalRegister.getEndDate().getYear() <= 1970) {
+        if (culturalRegister.getEndDate() == null || culturalRegister.getEndDate().get(Calendar.YEAR) <= 1970) {
             endDate.setVisibility(View.GONE);
-        } else endDate.setText(df.format(culturalRegister.getEndDate()));
+        } else endDate.setText(df.format(culturalRegister.getEndDate().getTime()));
 
         if (startDate.getVisibility() == View.GONE && endDate.getVisibility() == View.GONE) {
             (findViewById(R.id.culturalRegister_cardView2)).setVisibility(View.GONE);

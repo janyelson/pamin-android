@@ -10,6 +10,8 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.android.Utils;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,8 @@ public class CloudnaryPamim {
 
     private Cloudinary cloudinary;
     private CloudnaryPicSender cloudnarySender;
+    private String cloudUrl;
+    private String fit = "c_fit,h_300,w_300/";
 
     /**
      * Constructor to use this class
@@ -53,6 +57,15 @@ public class CloudnaryPamim {
      * @param maxHeight max size of height
      */
     public void getImage(String fileName, int maxWidth, int maxHeight, DownloadPicCallback downloadPicCallback) {
+        Log.e("url antes: ", fileName);
+        String url = cloudinary.url().transformation(new Transformation().width(maxWidth).height(maxHeight).crop("fit")).generate(fileName);
+        Log.e("url depois: ", url);
+        UrlWithCallback urlWithCallback = new UrlWithCallback(url, downloadPicCallback);
+        new DownloadImageTask().execute(urlWithCallback);
+    }
+
+    public void getImage(String cloudUrl, String fileName, int maxWidth, int maxHeight, DownloadPicCallback downloadPicCallback) {
+        this.cloudUrl = cloudUrl;
         String url = cloudinary.url().transformation(new Transformation().width(maxWidth).height(maxHeight).crop("fit")).generate(fileName);
         UrlWithCallback urlWithCallback = new UrlWithCallback(url, downloadPicCallback);
         new DownloadImageTask().execute(urlWithCallback);
@@ -158,16 +171,46 @@ public class CloudnaryPamim {
             String urldisplay = urls[0].getUrl();
             Bitmap mIcon11 = null;
             try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
+                InputStream in = new java.net.URL(cloudUrl).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
                 urls[0].getDownloadPicCallback().downloadPicCallback(mIcon11);
-            } catch (Exception e) {
+            }catch(FileNotFoundException e) {
+                InputStream in = null;
+                String urldisplay2 = urls[0].getUrl();
+                addFit();
+
+                try {
+                    in = new java.net.URL(cloudUrl).openStream();
+                    mIcon11 = BitmapFactory.decodeStream(in);
+                    urls[0].getDownloadPicCallback().downloadPicCallback(mIcon11);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+            catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
             return null;
         }
     }
+
+    private void addFit() {
+        int count = 0;
+        for(int i = cloudUrl.length() - 1; i >= 0; --i) {
+            if(cloudUrl.charAt(i) == '/') {
+                count++;
+            }
+            if(count == 2) {
+                cloudUrl = new StringBuilder(cloudUrl).insert(i, fit).toString();
+                Log.e("Vamos ver", cloudUrl);
+                return;
+            }
+
+        }
+    }
+
 
 
 }

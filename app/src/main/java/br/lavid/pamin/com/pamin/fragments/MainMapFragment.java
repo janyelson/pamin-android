@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,9 +34,10 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
 
     private GoogleMap googleMap;
     private LinkedList<CulturalRegister> allList;
+    private String category = "Tudo";
+    private String event = "Tudo";
 
     public MainMapFragment() {
-
     }
 
     @Override
@@ -125,6 +127,7 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
 
         for (CulturalRegister culturalRegister : allList) {
             int icon = 0;
+
             switch (culturalRegister.getCategory()) {
                 case "Lugares": {
                     icon = R.drawable.places;
@@ -138,6 +141,18 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
                     icon = R.drawable.know;
                     break;
                 }
+                case "Pessoas": {
+                    icon = R.drawable.peo;
+                    break;
+                }
+                case "Objetos": {
+                    icon = R.drawable.obj;
+                    break;
+                }
+                case "Formas de Expressão": {
+                    icon = R.drawable.expform;
+                    break;
+                }
                 default: {
                     icon = R.drawable.places;
                 }
@@ -147,7 +162,11 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
                     .position(new LatLng(culturalRegister.getLatitude(), culturalRegister.getLongitude()))
                     .title(culturalRegister.getTitle())
                     .icon(BitmapDescriptorFactory.fromResource(icon));
-            googleMap.addMarker(markerOptions);
+            if(category.equals(culturalRegister.getCategory())  || category.equals("Tudo")) {
+                googleMap.addMarker(markerOptions);
+            }
+            Log.e("mainMap is here", "So testando mesmo");
+            //googleMap.addMarker(markerOptions);
         }
     }
 
@@ -199,5 +218,15 @@ public class MainMapFragment extends com.google.android.gms.maps.SupportMapFragm
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12.0f));
 
         pinElements();
+    }
+
+    public void setCategory(String name) {
+        this.category = name;
+        updateList();
+    }
+
+    public void searchEvents(String name) {
+        this.event = name;
+        updateList();
     }
 }

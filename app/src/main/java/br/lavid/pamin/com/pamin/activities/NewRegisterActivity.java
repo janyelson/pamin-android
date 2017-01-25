@@ -51,7 +51,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import br.lavid.pamin.com.pamin.R;
 import br.lavid.pamin.com.pamin.models.CloudnaryPicture;
@@ -68,7 +68,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
     public static final int REQUEST_PLACE = 200;
     private static int RESULT_IMAGE_CLICK = 1;
 
-    private final Calendar c = Calendar.getInstance();
+    //private final Calendar c = Calendar.getInstance();
     private TextView addressView;
     private MapView mapView;
     private Button b;
@@ -85,6 +85,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
 
     private int aux = 0;
 
+    /*
     private int startYear = c.get(Calendar.YEAR);
     private int startMonth = c.get(Calendar.MONTH);
     private int startDay = c.get(Calendar.DAY_OF_MONTH);
@@ -95,11 +96,13 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
     private int startMin = c.get(Calendar.MINUTE);
     private int endHour = c.get(Calendar.HOUR_OF_DAY);
     private int endMin = c.get(Calendar.MINUTE);
+    */
 
     private Calendar calStartDate = Calendar.getInstance();
     private Calendar calEndDate = Calendar.getInstance();
-    private Date startDate;
-    private Date endDate;
+
+    //private Date startDate;
+    //private Date endDate;
 
     private String category, where, picVidURL;
     private double latitude, longitude;
@@ -198,7 +201,7 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
         }
 
 
-        SimpleDateFormat nameDate = new SimpleDateFormat(startDay + " 'de' MMM 'de' yyy");
+        //SimpleDateFormat nameDate = new SimpleDateFormat(startDay + " 'de' MMM 'de' yyy");
 
         b = (Button) findViewById(R.id.startTimeBtn);
         b.setText("Hora inicial indefinida");
@@ -218,15 +221,16 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                 TimePickerDialog timePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        startHour = hourOfDay;
-                        startMin = minute;
+                        //startHour = hourOfDay;
+                        //startMin = minute;
                         calStartDate.set(Calendar.HOUR, hourOfDay);
                         calStartDate.set(Calendar.MINUTE, minute);
+                        calStartDate.get(Calendar.MINUTE);
 
                         b = (Button) findViewById(R.id.startTimeBtn);
-                        b.setText((formatter.format(startHour)) + ":" + formatter.format(startMin));
+                        b.setText((formatter.format(calStartDate.get(Calendar.HOUR))) + ":" + formatter.format(calStartDate.get(Calendar.MINUTE)));
                     }
-                }, startHour, startMin, DateFormat.is24HourFormat(this));
+                }, calStartDate.get(Calendar.MINUTE), calStartDate.get(Calendar.MINUTE), DateFormat.is24HourFormat(this));
                 timePicker.setTitle("Inicio");
                 timePicker.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", timePicker);
                 timePicker.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -242,16 +246,16 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                 TimePickerDialog end = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        endHour = hourOfDay;
-                        endMin = minute;
+                        //endHour = hourOfDay;
+                        //endMin = minute;
 
                         calEndDate.set(Calendar.HOUR, hourOfDay);
                         calEndDate.set(Calendar.MINUTE, minute);
 
                         b = (Button) findViewById(R.id.endTimeBtn);
-                        b.setText((formatter.format(endHour)) + ":" + formatter.format(endMin));
+                        b.setText((formatter.format(calEndDate.get(Calendar.HOUR))) + ":" + formatter.format(calEndDate.get(Calendar.MINUTE)));
                     }
-                }, endHour, endMin, DateFormat.is24HourFormat(this));
+                }, calEndDate.get(Calendar.HOUR), calEndDate.get(Calendar.MINUTE), DateFormat.is24HourFormat(this));
                 end.setTitle("fim");
                 end.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", end);
                 end.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -272,23 +276,23 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                 DatePickerDialog startDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        startYear = year;
-                        startMonth = monthOfYear;
-                        startDay = dayOfMonth;
+                        //startYear = year;
+                        //startMonth = monthOfYear;
+                        //startDay = dayOfMonth;
+                        //Date date = null;
+                        //Calendar cal = GregorianCalendar.getInstance();
+                        //cal.set(startYear, startMonth, startDay);
+                        //date = cal.getTime();
+                        //startDate = date;
 
-                        Date date = null;
-                        Calendar cal = GregorianCalendar.getInstance();
-                        cal.set(startYear, startMonth, startDay);
-                        date = cal.getTime();
-                        startDate = date;
                         calStartDate.set(year, monthOfYear, dayOfMonth);
 
-                        SimpleDateFormat nameDate = new SimpleDateFormat(startDay + " 'de' MMM 'de' yyy");
+                        SimpleDateFormat nameDate = new SimpleDateFormat("dd 'de' MMM 'de' yyy", Locale.US);
 
                         b = (Button) findViewById(R.id.startDateBtn);
-                        b.setText(nameDate.format(date));
+                        b.setText(nameDate.format(calStartDate.getTime()));
                     }
-                }, startYear, startMonth, startDay);
+                }, calStartDate.get(Calendar.YEAR), calStartDate.get(Calendar.MONTH), calStartDate.get(Calendar.DAY_OF_YEAR));
                 startDatePicker.setTitle("Inicio");
                 startDatePicker.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", startDatePicker);
                 startDatePicker.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -304,22 +308,22 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                 DatePickerDialog datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endYear = year;
-                        endMonth = monthOfYear;
-                        endDay = dayOfMonth;
+                        //endYear = year;
+                        //endMonth = monthOfYear;
+                        //endDay = dayOfMonth;
+                        //Date date = null;
+                        //Calendar cal = GregorianCalendar.getInstance();
+                        //cal.set(endYear, endMonth, endDay);
+                        //date = cal.getTime();
+                        //endDate = date;
 
-                        Date date = null;
-                        Calendar cal = GregorianCalendar.getInstance();
-                        cal.set(endYear, endMonth, endDay);
-                        date = cal.getTime();
-                        endDate = date;
                         calEndDate.set(year, monthOfYear, dayOfMonth);
-                        SimpleDateFormat nameDate = new SimpleDateFormat(endDay + " 'de' MMM 'de' yyy");
+                        SimpleDateFormat nameDate = new SimpleDateFormat("dd 'de' MMM 'de' yyy");
 
                         b = (Button) findViewById(R.id.endDateBtn);
-                        b.setText(nameDate.format(date));
+                        b.setText(nameDate.format(calEndDate.getTime()));
                     }
-                }, endYear, endMonth, endDay);
+                }, calEndDate.get(Calendar.YEAR), calEndDate.get(Calendar.MONTH), calEndDate.get(Calendar.DAY_OF_MONTH));
                 datePicker.setTitle("Fim");
                 datePicker.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", datePicker);
                 datePicker.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -407,15 +411,15 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
                 //headers
                 json.put("what", title);
                 json.put("where", where);
-                if (startDate != null) {
-                    json.put("start_date", PaminAPI.convertDateToJsonDate(startDate, calStartDate));
+                if (calStartDate != null) {
+                    json.put("start_date", PaminAPI.convertDateToJsonDate(calStartDate));
                 }
-                if (endDate != null) {
-                    json.put("end_date", PaminAPI.convertDateToJsonDate(endDate, calEndDate));
+                if (calEndDate != null) {
+                    json.put("end_date", PaminAPI.convertDateToJsonDate(calEndDate));
                 }
 
                 if(price != null) {
-                    json.put("price", Double.parseDouble(price));
+                    json.put("price", price);
                 }
                 if(promot != null) {
                     json.put("promotor", promot);
@@ -426,17 +430,28 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
 
                 }
 
-                json.put("latitude", latitude);
-                json.put("longitude", longitude);
+                json.put("latitude", ""+latitude);
+                json.put("longitude", ""+longitude);
                 json.put("description", desc);
-                json.put("category_id", PaminAPI.getCategoryID(category));
-                JSONArray picsVidsJson = new JSONArray();
 
-                picsVidsJson.put("http://data.whicdn.com/images/9500691/large.jpg");
+                //JSONObject category1 = new JSONObject();
+                //category1.put("id", PaminAPI.getCategoryID(category));
+                //category1.put("name", "-.-");
+                //json.put("category", category1);
+
+                json.put("category_id", PaminAPI.getCategoryID(category));
+
+
+                JSONArray picsVidsJson = new JSONArray();
+                //String go = null;
+                //picsVidsJson.put("http://1.bp.blogspot.com/_C5a2qH8Y_jk/SviBFmyU1pI/AAAAAAAAAQA/VS_zcIyYP2s/s400/AndroidLocation_03.png");
                 //picsVidsJson.put("something");
 
                 if (picVidURL != null) {
                     picsVidsJson.put(picVidURL);
+                    //go = picVidURL;
+                } else {
+                    picsVidsJson.put("");
                 }
 
                 json.put("pictures", picsVidsJson);
@@ -532,15 +547,18 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
             } catch (IOException e) {
                 Log.e("NewRegError", e.getMessage());
             }
-
-            loading.show();
-            new CloudnaryPicture(new CloudnaryPamim(this), bmpImage, User.getInstance(this), new CloudnaryPicture.SendPictureCallback() {
-                @Override
-                public void sentPicture(Bitmap downloadPicture, String url) {
-                    picVidURL = url;
-                    loading.dismiss();
-                }
-            });
+            try {
+                loading.show();
+                new CloudnaryPicture(new CloudnaryPamim(this), bmpImage, User.getInstance(this), new CloudnaryPicture.SendPictureCallback() {
+                    @Override
+                    public void sentPicture(Bitmap downloadPicture, String url) {
+                        picVidURL = url;
+                        loading.dismiss();
+                    }
+                });
+            }catch(Exception e) {
+                loading.dismiss();
+            }
             return;
         }
         if (requestCode == REQUEST_PLACE && resultCode == RESULT_OK) {
@@ -666,25 +684,34 @@ public class NewRegisterActivity extends AppCompatActivity implements OnMapReady
             case R.id.clearStartDate_btn:
                 b = (Button) findViewById(R.id.startDateBtn);
                 b.setText("Data inicial indefinida");
-                this.startDate = null;
+                this.calStartDate.set(Calendar.YEAR, 0);
+                this.calStartDate.set(Calendar.MONTH, 0);
+                this.calStartDate.set(Calendar.DAY_OF_MONTH, 0);
                 break;
 
             case R.id.clearStartTime_btn:
                 b = (Button) findViewById(R.id.startTimeBtn);
                 b.setText("Hora inicial indefinida");
-                this.startHour = 0;
+                this.calStartDate.set(Calendar.HOUR, 0);
+                this.calStartDate.set(Calendar.MINUTE, 0);
+                this.calStartDate.set(Calendar.SECOND, 0);
                 break;
 
             case R.id.clearEndDate_btn:
                 b = (Button) findViewById(R.id.endDateBtn);
                 b.setText("Data final indefinida");
-                this.endDate = null;
+                this.calEndDate.set(Calendar.YEAR, 0);
+                this.calEndDate.set(Calendar.MONTH, 0);
+                this.calEndDate.set(Calendar.DAY_OF_MONTH, 0);
                 break;
 
             case R.id.clearEndTime_btn:
                 b = (Button) findViewById(R.id.endTimeBtn);
                 b.setText("Hora final indefinida");
-                this.endHour = 0;
+                this.calEndDate.set(Calendar.HOUR, 0);
+                this.calEndDate.set(Calendar.MINUTE, 0);
+                this.calEndDate.set(Calendar.SECOND, 0);
+                //this.endHour = 0;
                 break;
 
             default:

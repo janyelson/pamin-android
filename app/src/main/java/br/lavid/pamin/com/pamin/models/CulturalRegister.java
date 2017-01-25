@@ -8,7 +8,7 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.LinkedList;
 
 /**
@@ -23,13 +23,14 @@ public class CulturalRegister implements Serializable {
     private String promoter, promoterContact;
     private LinkedList<CloudnaryPicture> pictures;
     private LinkedList<DevicePicture> devPictures;
-    private Date startDate, endDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private double price;
     private double latitude, longitude;
 
     public CulturalRegister(long idCulturalRegister, String promoter, String promoterContact,
                             String title, String description, LinkedList<CloudnaryPicture> pictures,
-                            Date startDate, Date endDate, double price, double latitude,
+                            Calendar startDate, Calendar endDate, double price, double latitude,
                             double longitude, String category, String where) {
 
         setCategory(category);
@@ -147,25 +148,48 @@ public class CulturalRegister implements Serializable {
         return promoterContact;
     }
 
-    public LinkedList<CloudnaryPicture> getPictures() {
+    public synchronized LinkedList<CloudnaryPicture> getPictures() {
         return pictures;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Calendar getStartDate() {
+        if(startDate == null) {
+
+            return null;
+        }
+
+        return (Calendar) startDate.clone();
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartDate(Calendar startDate) {
+
+        if(startDate == null) {
+            this.startDate = null;
+        }
+        else {
+            this.startDate = (Calendar) startDate.clone();
+        }
 
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Calendar getEndDate() {
+        if(endDate == null) {
+            return null;
+        }
+        return (Calendar) endDate.clone();
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDate(Calendar endDate) {
+        if(endDate == null) {
+
+            this.endDate = null;
+
+        }
+        else {
+
+            this.endDate = (Calendar) endDate.clone();
+
+        }
     }
 
     public double getPrice() {

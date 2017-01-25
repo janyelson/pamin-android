@@ -10,10 +10,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -22,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -47,6 +51,8 @@ public class User {
     private Location userLocation;
     private Bitmap background, userPicture;
     private int id;
+
+    //public int aux = 1;
 
     private User(Context ctx) {
         Log.v("User", "loading user");
@@ -207,8 +213,8 @@ public class User {
 
         } catch (JSONException error) {
             Log.e("JsonError:", error.getMessage());
+            onPostSignin(null, callback);
         }
-
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, PaminAPI.API_PAMIN + PaminAPI.API_SIGNIN, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -218,7 +224,8 @@ public class User {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Log.e("LoginUser:", volleyError.toString());
+                onPostSignin(null, callback);
             }
         }) {
             @Override
@@ -226,6 +233,25 @@ public class User {
                 Map<String, String> header = new HashMap<>();
                 header.put("Content-Type", "application/json");
                 return header;
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String jsonString = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers));
+
+                    JSONObject result = null;
+                    if (jsonString != null && jsonString.length() > 0)
+                        result = new JSONObject(jsonString);
+
+                    return Response.success(result,
+                            HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    return Response.error(new ParseError(e));
+                } catch (JSONException je) {
+                    return Response.error(new ParseError(je));
+                }
             }
         };
 
@@ -292,6 +318,8 @@ public class User {
             if (jsonResult.has("user")) {
                 Log.v("SignUp", "New User");
                 JSONObject newUser = jsonResult.getJSONObject("user");
+                Log.e("SignUpJson", newUser.toString());
+                Log.e("SignUpJson", jsonResult.toString());
                 local_id = newUser.getInt("id");
                 local_name = newUser.getString("name");
                 local_email = newUser.getString("email");
@@ -315,16 +343,25 @@ public class User {
 
     private void onPostSignin(JSONObject jsonResult, CompleteCallback callback) { //LOGIN
         try {
-            JSONObject jsonUser = (JSONObject) jsonResult.get("user");
-            setUser(jsonUser.getInt("id"),
-                    jsonUser.getString("name"),
-                    jsonUser.getString("email"),
-                    password,
-                    jsonResult.getJSONObject("authentication_headers").getString("user_token"));
-            callback.completeCallback(true);
+            if(jsonResult != null) {
+                JSONObject jsonUser = (JSONObject) jsonResult.get("user");
+                //Log.v("onPostSignin:", jsonUser.toString());
+                //Log.v("onPostSignin:", jsonResult.getJSONObject("authentication_headers").getString("user_token"));
+
+                setUser(jsonUser.getInt("id"),
+                        jsonUser.getString("name"),
+                        jsonUser.getString("email"),
+                        password,
+                        jsonResult.getJSONObject("authentication_headers").getString("user_token"));
+                //this.aux = 0;
+                callback.completeCallback(true);
+            }
+            else {
+                callback.completeCallback(false);
+            }
 
         } catch (JSONException e) {
-            Log.e("Login", e.getMessage());
+            Log.e("LoginUser", e.getMessage());
             callback.completeCallback(false);
         }
     }
